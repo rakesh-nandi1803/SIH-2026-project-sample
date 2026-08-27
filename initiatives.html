@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Initiative Tracker — SkillTrack360</title>
+  <meta name="description" content="Track the impact and ROI of all national skilling initiatives — PMKVY, DDU-GKY, NAPS, and more." />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    .page-layout { max-width: 1400px; margin: 0 auto; padding: var(--space-xl); }
+    .page-title  { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: var(--space-xs); }
+
+    /* Initiative Cards */
+    .initiative-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .init-card {
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+    .init-card:hover {
+      background: var(--glass-hover);
+      border-color: rgba(0,212,255,0.2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+    .init-card-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: var(--space-md);
+    }
+    .init-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 4px; flex: 1; margin-right: 8px;
+    }
+    .init-ministry { font-size: 0.72rem; color: var(--text-muted); }
+    .init-id {
+      font-size: 0.7rem; color: var(--accent-1);
+      font-family: monospace; letter-spacing: 0.04em;
+    }
+    .init-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm); margin: var(--space-md) 0;
+    }
+    .init-stat { text-align: center; }
+    .init-stat-val { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; }
+    .init-stat-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .init-placement-bar { margin-top: var(--space-md); }
+    .init-placement-top {
+      display: flex; justify-content: space-between;
+      font-size: 0.78rem; margin-bottom: 6px;
+    }
+    .init-footer {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: var(--space-md);
+      flex-wrap: wrap; gap: 6px;
+    }
+
+    /* Charts */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .dash-card {
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+    }
+    .dash-card-title {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Comparison Table */
+    .comparison-table { margin-bottom: var(--space-xl); }
+
+    /* trend badges */
+    .trend-up   { color: var(--accent-3); }
+    .trend-down { color: #ff4757; }
+
+    @media (max-width: 768px) { .charts-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo-icon">🎯</div>
+      <span class="logo-text">SkillTrack360</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="dashboard.html">📊 Dashboard</a></li>
+      <li><a href="skill-gap.html">🔍 Skill Gaps</a></li>
+      <li><a href="initiatives.html">🚀 Initiatives</a></li>
+      <li><a href="trainee.html">👤 Trainees</a></li>
+    </ul>
+    <button class="btn btn-primary btn-sm" onclick="showToast('Initiative report exported!','success')">⬇ Export</button>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-layout">
+      <!-- Header -->
+      <div class="animate-up" style="margin-bottom:var(--space-xl);">
+        <h1 class="page-title">Initiative <span class="grad-text">Impact Tracker</span></h1>
+        <p style="color:var(--text-secondary);font-size:0.875rem;">Measuring ROI of national skilling programs — PMKVY · DDU-GKY · NAPS · SANKALP · ASEEM</p>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid" style="margin-bottom:var(--space-xl);">
+        <div class="kpi-card glass-card blue animate-up animate-delay-1">
+          <div class="kpi-icon">🚀</div>
+          <div class="kpi-value counter" data-target="6">0</div>
+          <div class="kpi-label">Active Initiatives</div>
+        </div>
+        <div class="kpi-card glass-card green animate-up animate-delay-2">
+          <div class="kpi-icon">📊</div>
+          <div class="kpi-value"><span class="counter" data-target="76.3">0</span>%</div>
+          <div class="kpi-label">Avg. Placement Rate</div>
+        </div>
+        <div class="kpi-card glass-card orange animate-up animate-delay-3">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-value">₹<span class="counter" data-target="3780">0</span>Cr</div>
+          <div class="kpi-label">Total Budget Allocated</div>
+        </div>
+        <div class="kpi-card glass-card red animate-up animate-delay-4">
+          <div class="kpi-icon">🏆</div>
+          <div class="kpi-value"><span class="counter" data-target="86.4">0</span>%</div>
+          <div class="kpi-label">Best Rate (ASEEM)</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-row">
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Placement Rate Comparison</div>
+          <div style="position:relative;height:300px;">
+            <canvas id="placementCompChart"></canvas>
+          </div>
+        </div>
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Enrolled vs. Placed (Funnel)</div>
+          <div style="position:relative;height:300px;">
+            <canvas id="funnelChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Initiative Cards -->
+      <div class="section-header reveal">
+        <div>
+          <h2 class="section-title">All Initiatives</h2>
+          <p class="section-subtitle">Click any card to explore detailed metrics</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select class="filter-select" onchange="filterByStatus(this.value)">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="initiative-cards" id="initiativeCards"></div>
+
+      <!-- Comparison Table -->
+      <div class="comparison-table dash-card reveal">
+        <div class="dash-card-title" style="margin-bottom:var(--space-md);">Side-by-Side Comparison</div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="compTable"></table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="data/mock-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/initiatives.js"></script>
+</body>
+</html>

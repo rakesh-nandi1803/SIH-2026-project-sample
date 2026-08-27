@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainee Profile — SkillTrack360</title>
+  <meta name="description" content="Track individual trainee journeys from enrollment to placement with skill acquisition, certifications, and job matching." />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    .page-layout { max-width: 1400px; margin: 0 auto; padding: var(--space-xl); }
+    .page-title  { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: var(--space-xs); }
+
+    /* Selector Bar */
+    .selector-bar {
+      display: flex; gap: var(--space-md); align-items: center;
+      flex-wrap: wrap; margin-bottom: var(--space-xl);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+    }
+
+    /* Profile Layout */
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--space-lg);
+    }
+
+    /* Profile Sidebar */
+    .profile-sidebar {
+      display: flex; flex-direction: column; gap: var(--space-lg);
+    }
+    .profile-card {
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+    }
+    .profile-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800; color: white;
+      margin: 0 auto var(--space-md);
+      box-shadow: var(--shadow-glow);
+    }
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-weight: 800;
+      text-align: center; margin-bottom: 4px;
+    }
+    .profile-id {
+      text-align: center; font-size: 0.72rem;
+      color: var(--accent-1); font-family: monospace;
+      margin-bottom: var(--space-md);
+    }
+    .profile-info-row {
+      display: flex; justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+    }
+    .profile-info-row:last-child { border-bottom: none; }
+    .profile-info-key { color: var(--text-muted); }
+    .profile-info-val { color: var(--text-primary); font-weight: 500; text-align: right; max-width: 160px; }
+
+    /* Match Score */
+    .match-score-ring {
+      position: relative;
+      width: 120px; height: 120px;
+      margin: 0 auto var(--space-md);
+    }
+    .match-score-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .match-score-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem; font-weight: 900;
+      color: var(--accent-3); line-height: 1;
+    }
+    .match-score-label { font-size: 0.65rem; color: var(--text-muted); }
+
+    /* Main Content */
+    .profile-main {
+      display: flex; flex-direction: column; gap: var(--space-lg);
+    }
+    .dash-card {
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+    }
+    .dash-card-title {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: var(--space-lg);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* Status Banner */
+    .status-banner {
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .status-banner.placed {
+      background: rgba(0,255,159,0.08);
+      border: 1px solid rgba(0,255,159,0.2);
+    }
+    .status-banner.training {
+      background: rgba(255,214,10,0.08);
+      border: 1px solid rgba(255,214,10,0.2);
+    }
+    .status-icon { font-size: 1.5rem; }
+    .status-text { flex: 1; }
+    .status-title { font-weight: 700; font-size: 0.9rem; }
+    .status-desc  { font-size: 0.8rem; color: var(--text-secondary); }
+
+    /* AI Recommendation */
+    .ai-card {
+      background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(123,94,167,0.06));
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+    .ai-rec-item {
+      display: flex; gap: var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .ai-rec-item:last-child { border-bottom: none; }
+    .ai-rec-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(0,212,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1rem;
+    }
+    .ai-rec-title { font-size: 0.85rem; font-weight: 600; }
+    .ai-rec-desc  { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+    .ai-rec-tag   { font-size: 0.68rem; color: var(--accent-1); margin-top: 4px; }
+
+    @media (max-width: 900px) {
+      .profile-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="logo-icon">🎯</div>
+      <span class="logo-text">SkillTrack360</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="dashboard.html">📊 Dashboard</a></li>
+      <li><a href="skill-gap.html">🔍 Skill Gaps</a></li>
+      <li><a href="initiatives.html">🚀 Initiatives</a></li>
+      <li><a href="trainee.html">👤 Trainees</a></li>
+    </ul>
+    <button class="btn btn-primary btn-sm" onclick="showToast('Profile exported!','success')">⬇ Export Profile</button>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-layout">
+      <!-- Header -->
+      <div class="animate-up" style="margin-bottom:var(--space-xl);">
+        <h1 class="page-title">Trainee <span class="grad-text">Profile</span></h1>
+        <p style="color:var(--text-secondary);font-size:0.875rem;">End-to-end journey tracking — Enrollment → Training → Certification → Placement</p>
+      </div>
+
+      <!-- Selector Bar -->
+      <div class="selector-bar reveal">
+        <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">👤 Select Trainee:</span>
+        <select class="filter-select" id="traineeSelect" onchange="loadTrainee(this.value)">
+          <option value="0">Priya Sharma — TRN-2024-001842 (Placed)</option>
+          <option value="1">Rajan Kumar — TRN-2024-003291 (Placed)</option>
+          <option value="2">Anita Devi — TRN-2024-007812 (In Training)</option>
+        </select>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <div class="stat-pill">Total Trainees: <span>184,750</span></div>
+        </div>
+      </div>
+
+      <!-- Profile Layout -->
+      <div class="profile-layout">
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+          <!-- Identity Card -->
+          <div class="profile-card reveal">
+            <div id="profileAvatar" class="profile-avatar">PS</div>
+            <div id="profileName" class="profile-name">Priya Sharma</div>
+            <div id="profileId"   class="profile-id">TRN-2024-001842</div>
+            <div id="profileInfo"></div>
+          </div>
+
+          <!-- Match Score -->
+          <div class="profile-card reveal">
+            <div style="text-align:center;margin-bottom:var(--space-md);">
+              <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-md);">Job Match Score</div>
+              <div class="match-score-ring">
+                <canvas id="matchChart" width="120" height="120"></canvas>
+                <div class="match-score-text">
+                  <div id="matchNum" class="match-score-num">92</div>
+                  <div class="match-score-label">/ 100</div>
+                </div>
+              </div>
+              <div id="matchLabel" style="font-size:0.8rem;color:var(--accent-3);font-weight:600;">Excellent Match</div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="profile-card reveal">
+            <div class="dash-card-title">📜 Certifications</div>
+            <div id="certList"></div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="profile-main">
+          <!-- Status Banner -->
+          <div id="statusBanner" class="reveal"></div>
+
+          <!-- Skills -->
+          <div class="dash-card reveal">
+            <div class="dash-card-title">🛠️ Skills Acquired</div>
+            <div id="skillsList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+          </div>
+
+          <!-- Journey Timeline -->
+          <div class="dash-card reveal">
+            <div class="dash-card-title">🗺️ Journey Timeline</div>
+            <div class="timeline" id="timeline"></div>
+          </div>
+
+          <!-- Charts Row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-lg);">
+            <div class="dash-card reveal">
+              <div class="dash-card-title">📈 Skill Progress</div>
+              <div style="position:relative;height:220px;">
+                <canvas id="skillProgressChart"></canvas>
+              </div>
+            </div>
+            <div class="dash-card reveal">
+              <div class="dash-card-title">💰 Salary Comparison</div>
+              <div style="position:relative;height:220px;">
+                <canvas id="salaryCompChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Recommendations -->
+          <div class="dash-card ai-card reveal">
+            <div class="dash-card-title">
+              🤖 AI Skill Recommendations
+              <span class="badge badge-blue">Powered by SkillAI</span>
+            </div>
+            <div id="aiRecs"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="data/mock-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/trainee.js"></script>
+</body>
+</html>
