@@ -58,10 +58,10 @@ function renderStatusBanner(t) {
   if (t.status === 'placed') {
     el.innerHTML = `
       <div class="status-banner placed">
-        <div class="status-icon">✅</div>
+        <div class="status-icon"><i class="fa-solid fa-circle-check" style="color:var(--green);font-size:1.4rem;"></i></div>
         <div class="status-text">
-          <div class="status-title" style="color:var(--accent-3);">Successfully Placed!</div>
-          <div class="status-desc">Hired by <strong>${t.employer}</strong> as <strong>${t.jobRole}</strong> — Salary: <strong style="color:var(--accent-3);">₹${formatNum(t.salary)}/month</strong></div>
+          <div class="status-title" style="color:var(--green);">Successfully Placed!</div>
+          <div class="status-desc">Hired by <strong>${t.employer}</strong> as <strong>${t.jobRole}</strong> — Salary: <strong style="color:var(--green);">₹${formatNum(t.salary)}/month</strong></div>
         </div>
         <div>
           <div class="badge badge-green">PLACED</div>
@@ -70,9 +70,9 @@ function renderStatusBanner(t) {
   } else {
     el.innerHTML = `
       <div class="status-banner training">
-        <div class="status-icon">🔄</div>
+        <div class="status-icon"><i class="fa-solid fa-arrows-rotate fa-spin" style="color:var(--accent);font-size:1.4rem;"></i></div>
         <div class="status-text">
-          <div class="status-title" style="color:var(--accent-5);">Currently In Training</div>
+          <div class="status-title" style="color:var(--accent);">Currently In Training</div>
           <div class="status-desc">Enrolled in <strong>${t.initiative}</strong> · Course: <strong>${t.course}</strong></div>
         </div>
         <div><div class="badge badge-orange">IN TRAINING</div></div>
@@ -83,7 +83,7 @@ function renderStatusBanner(t) {
 // ── Skills ────────────────────────────────────────────────
 function renderSkills(t) {
   const el = document.getElementById('skillsList');
-  el.innerHTML = t.skills.map(s => `<span class="skill-tag">✓ ${s}</span>`).join('');
+  el.innerHTML = t.skills.map(s => `<span class="skill-tag"><i class="fa-solid fa-check" style="margin-right:4px;font-size:0.75rem;"></i>${s}</span>`).join('');
 }
 
 // ── Timeline ──────────────────────────────────────────────
@@ -103,7 +103,7 @@ function renderCertifications(t) {
   const el = document.getElementById('certList');
   el.innerHTML = t.certifications.map(c => `
     <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-      <span style="font-size:1rem;">🏅</span>
+      <span style="font-size:0.95rem;color:var(--accent);"><i class="fa-solid fa-award"></i></span>
       <span style="font-size:0.82rem;font-weight:500;">${c}</span>
     </div>`).join('');
 }
@@ -119,14 +119,14 @@ function renderMatchScore(t) {
   document.getElementById('matchLabel').textContent =
     score >= 90 ? 'Excellent Match' : score >= 75 ? 'Good Match' : 'Fair Match';
   document.getElementById('matchLabel').style.color =
-    score >= 90 ? 'var(--accent-3)' : score >= 75 ? 'var(--accent-5)' : '#00d4ff';
+    score >= 90 ? 'var(--green)' : score >= 75 ? 'var(--accent)' : 'var(--orange)';
 
   matchChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       datasets: [{
         data: [score, 100 - score],
-        backgroundColor: [score >= 90 ? 'rgba(0,255,159,0.8)' : 'rgba(0,212,255,0.8)', 'rgba(255,255,255,0.04)'],
+        backgroundColor: [score >= 90 ? 'rgba(16,185,129,0.85)' : 'rgba(243,106,16,0.85)', 'rgba(255,255,255,0.06)'],
         borderColor: 'transparent',
         borderWidth: 0
       }]
@@ -155,10 +155,10 @@ function renderSkillProgressChart(t) {
       datasets: [{
         label: 'Proficiency',
         data: scores,
-        backgroundColor: 'rgba(0,212,255,0.1)',
-        borderColor: '#00d4ff',
+        backgroundColor: 'rgba(243,106,16,0.15)',
+        borderColor: '#f36a10',
         borderWidth: 2,
-        pointBackgroundColor: '#00d4ff',
+        pointBackgroundColor: '#f36a10',
         pointRadius: 4
       }]
     },
@@ -203,15 +203,15 @@ function renderSalaryCompChart(t) {
         {
           label: 'Sector Avg',
           data: sectorData,
-          borderColor: '#7b5ea7',
-          backgroundColor: 'rgba(123,94,167,0.08)',
+          borderColor: '#64748b',
+          backgroundColor: 'rgba(100,116,139,0.08)',
           tension: 0.4, pointRadius: 4, fill: true
         },
         {
           label: t.name.split(' ')[0],
           data: traineePoints,
-          borderColor: '#00ff9f',
-          backgroundColor: 'rgba(0,255,159,0.08)',
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16,185,129,0.08)',
           tension: 0.4, pointRadius: 5,
           borderDash: t.status !== 'placed' ? [5, 3] : [],
           fill: true,
@@ -239,19 +239,19 @@ function renderAIRecommendations(t) {
   const el = document.getElementById('aiRecs');
   const recs = {
     'IT & Tech': [
-      { icon: '☁️', title: 'Cloud Computing (AWS/GCP)', desc: 'High demand in your sector — 57pt gap in market', tag: 'Critical Skill · +₹8,000 salary potential' },
-      { icon: '🤖', title: 'Machine Learning Fundamentals', desc: 'AI/ML roles growing 3x — pairs well with Python skills', tag: 'High Growth · +₹12,000 salary potential' },
-      { icon: '🔒', title: 'Cybersecurity Essentials', desc: '55pt skill gap — massive employer demand', tag: 'Critical Shortage · 2,000+ open roles' }
+      { icon: '<i class="fa-solid fa-cloud"></i>', title: 'Cloud Computing (AWS/GCP)', desc: 'High demand in your sector — 57pt gap in market', tag: 'Critical Skill · +₹8,000 salary potential' },
+      { icon: '<i class="fa-solid fa-brain"></i>', title: 'Machine Learning Fundamentals', desc: 'AI/ML roles growing 3x — pairs well with Python skills', tag: 'High Growth · +₹12,000 salary potential' },
+      { icon: '<i class="fa-solid fa-shield-halved"></i>', title: 'Cybersecurity Essentials', desc: '55pt skill gap — massive employer demand', tag: 'Critical Shortage · 2,000+ open roles' }
     ],
     'Construction': [
-      { icon: '⚡', title: 'Electrical Installations (NSQF L4)', desc: 'Complements masonry — 40% higher earnings', tag: 'High Value · +₹5,000 salary potential' },
-      { icon: '📐', title: 'AutoCAD & Civil Drafting', desc: 'Digital skills now required by top employers', tag: 'Growing Demand · Matches L&T profile' },
-      { icon: '🔋', title: 'Solar & Renewable Energy', desc: '43pt skill gap — booming green energy sector', tag: 'Future Ready · Govt. priority sector' }
+      { icon: '<i class="fa-solid fa-bolt"></i>', title: 'Electrical Installations (NSQF L4)', desc: 'Complements masonry — 40% higher earnings', tag: 'High Value · +₹5,000 salary potential' },
+      { icon: '<i class="fa-solid fa-ruler-combined"></i>', title: 'AutoCAD & Civil Drafting', desc: 'Digital skills now required by top employers', tag: 'Growing Demand · Matches L&T profile' },
+      { icon: '<i class="fa-solid fa-solar-panel"></i>', title: 'Solar & Renewable Energy', desc: '43pt skill gap — booming green energy sector', tag: 'Future Ready · Govt. priority sector' }
     ],
     'Healthcare': [
-      { icon: '💊', title: 'Pharmacy & Medicine Dispensing', desc: 'Expand scope from nursing to clinical support', tag: 'Adjacent Role · +₹4,000 salary potential' },
-      { icon: '🏥', title: 'NABH Quality Standards', desc: 'Hospital accreditation knowledge in high demand', tag: 'Career Boost · Management track' },
-      { icon: '📱', title: 'mHealth & Digital Health Records', desc: 'All hospitals going digital — essential skill', tag: 'Trending · 30+ open positions in Jaipur' }
+      { icon: '<i class="fa-solid fa-prescription-bottle-medical"></i>', title: 'Pharmacy & Medicine Dispensing', desc: 'Expand scope from nursing to clinical support', tag: 'Adjacent Role · +₹4,000 salary potential' },
+      { icon: '<i class="fa-solid fa-square-h"></i>', title: 'NABH Quality Standards', desc: 'Hospital accreditation knowledge in high demand', tag: 'Career Boost · Management track' },
+      { icon: '<i class="fa-solid fa-mobile-screen-button"></i>', title: 'mHealth & Digital Health Records', desc: 'All hospitals going digital — essential skill', tag: 'Trending · 30+ open positions in Jaipur' }
     ]
   };
 
@@ -262,7 +262,7 @@ function renderAIRecommendations(t) {
       <div>
         <div class="ai-rec-title">${r.title}</div>
         <div class="ai-rec-desc">${r.desc}</div>
-        <div class="ai-rec-tag">💡 ${r.tag}</div>
+        <div class="ai-rec-tag"><i class="fa-solid fa-lightbulb" style="margin-right:4px;"></i> ${r.tag}</div>
       </div>
       <button class="btn btn-ghost btn-sm" style="flex-shrink:0;" onclick="showToast('Enroll request sent for ${r.title}!','success')">Enroll</button>
     </div>`).join('');

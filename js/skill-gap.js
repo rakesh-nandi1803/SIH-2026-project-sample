@@ -41,16 +41,16 @@ function renderGapCards(gaps) {
       <div class="gap-bar-row">
         <div class="gap-bar-label">Demand</div>
         <div class="gap-bar-wrap">
-          <div class="gap-bar-fill" style="width:${demandW}%; background:linear-gradient(90deg,#ff4757,#ff6b35);"></div>
+          <div class="gap-bar-fill" style="width:${demandW}%; background:linear-gradient(90deg,#f36a10,#ea580c);"></div>
         </div>
-        <div style="font-size:0.72rem;color:#ff4757;font-weight:700;width:28px;text-align:right;">${g.demand}%</div>
+        <div style="font-size:0.72rem;color:#f36a10;font-weight:700;width:28px;text-align:right;">${g.demand}%</div>
       </div>
       <div class="gap-bar-row" style="margin-top:6px;">
         <div class="gap-bar-label">Supply</div>
         <div class="gap-bar-wrap">
-          <div class="gap-bar-fill" style="width:${supplyW}%; background:linear-gradient(90deg,#00d4ff,#7b5ea7);"></div>
+          <div class="gap-bar-fill" style="width:${supplyW}%; background:linear-gradient(90deg,#10b981,#059669);"></div>
         </div>
-        <div style="font-size:0.72rem;color:#00d4ff;font-weight:700;width:28px;text-align:right;">${g.supply}%</div>
+        <div style="font-size:0.72rem;color:#10b981;font-weight:700;width:28px;text-align:right;">${g.supply}%</div>
       </div>
       <div style="margin-top:var(--space-md);display:flex;justify-content:space-between;align-items:center;">
         <span class="badge badge-${severityClass(g.severity)}">${g.severity.toUpperCase()}</span>
@@ -104,16 +104,16 @@ function renderDemandSupplyChart(gaps) {
         {
           label: 'Market Demand',
           data: gaps.map(g => g.demand),
-          backgroundColor: 'rgba(255,71,87,0.6)',
-          borderColor: '#ff4757',
+          backgroundColor: 'rgba(243,106,16,0.6)',
+          borderColor: '#f36a10',
           borderWidth: 1,
           borderRadius: 4,
         },
         {
           label: 'Workforce Supply',
           data: gaps.map(g => g.supply),
-          backgroundColor: 'rgba(0,212,255,0.4)',
-          borderColor: '#00d4ff',
+          backgroundColor: 'rgba(16,185,129,0.4)',
+          borderColor: '#10b981',
           borderWidth: 1,
           borderRadius: 4,
         }
@@ -165,19 +165,19 @@ function renderGapRadarChart() {
         {
           label: 'Demand',
           data: topCritical.map(g => g.demand),
-          backgroundColor: 'rgba(255,71,87,0.1)',
-          borderColor: '#ff4757',
+          backgroundColor: 'rgba(243,106,16,0.15)',
+          borderColor: '#f36a10',
           borderWidth: 2,
-          pointBackgroundColor: '#ff4757',
+          pointBackgroundColor: '#f36a10',
           pointRadius: 4,
         },
         {
           label: 'Supply',
           data: topCritical.map(g => g.supply),
-          backgroundColor: 'rgba(0,212,255,0.1)',
-          borderColor: '#00d4ff',
+          backgroundColor: 'rgba(16,185,129,0.15)',
+          borderColor: '#10b981',
           borderWidth: 2,
-          pointBackgroundColor: '#00d4ff',
+          pointBackgroundColor: '#10b981',
           pointRadius: 4,
         }
       ]

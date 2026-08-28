@@ -22,12 +22,21 @@ export default function Sidebar({ collapsed, onToggle }) {
     <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon">
-          <Activity size={18} color="white" />
-        </div>
+        <img
+          src="images/logo-icon.png"
+          alt="SkillTrack360"
+          style={{
+            height: 38,
+            width: 'auto',
+            maxHeight: 38,
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 2px 10px rgba(243, 106, 16, 0.45))',
+            flexShrink: 0,
+          }}
+        />
         <div className="logo-text">
-          <div className="logo-title">WorkForce IQ</div>
-          <div className="logo-sub">SIH 2026 Analytics</div>
+          <div className="logo-title">SkillTrack<span style={{ color: 'var(--accent-orange)' }}>360</span></div>
+          <div className="logo-sub">Workforce Analytics</div>
         </div>
       </div>
 

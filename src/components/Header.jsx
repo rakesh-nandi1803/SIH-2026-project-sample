@@ -22,7 +22,7 @@ export default function Header({ collapsed, pathname }) {
         <div className="header-search">
           <Search size={14} />
           <span>Search insights…</span>
-          <span style={{ marginLeft: 8, padding: '1px 5px', border: '1px solid rgba(148,163,184,0.2)', borderRadius: 4, fontSize: '0.65rem', color: 'var(--text-muted)' }}>⌘K</span>
+          <span style={{ marginLeft: 8, padding: '1px 5px', border: '1px solid rgba(148,163,184,0.2)', borderRadius: 4, fontSize: '0.65rem', color: 'var(--text-muted)' }}>Ctrl+K</span>
         </div>
 
         <div className="icon-btn" title="Refresh data">

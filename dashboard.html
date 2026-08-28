@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,279 +8,162 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    .dash-layout {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: var(--space-xl);
-    }
-    .page-title {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: var(--space-xs);
-    }
-    .page-meta {
-      display: flex;
-      align-items: center;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-2xl);
-    }
-    .live-indicator {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: var(--accent-3);
-      font-weight: 500;
-    }
-    .live-dot {
-      width: 8px; height: 8px;
-      background: var(--accent-3);
-      border-radius: 50%;
-      animation: livePulse 1.5s ease-in-out infinite;
-    }
-    @keyframes livePulse {
-      0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,159,0.4); }
-      50%      { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,255,159,0); }
-    }
-
-    /* Grid Layouts */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-lg);
-    }
-    .charts-row-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-lg);
-    }
-    .bottom-row {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-lg);
-    }
-
-    /* Cards */
-    .dash-card {
-      padding: var(--space-lg);
-      border-radius: var(--radius-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-    }
-    .dash-card-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: var(--space-lg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* Employer list */
-    .employer-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      padding: var(--space-sm) 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .employer-item:last-child { border-bottom: none; }
-    .employer-rank {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      width: 20px;
-      text-align: center;
-    }
-    .employer-name {
-      flex: 1;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    .employer-sector {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-    .employer-count {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--accent-1);
-    }
-
-    /* State table */
-    .state-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .state-row:last-child { border-bottom: none; }
-    .state-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
-    .state-rate { font-size: 0.85rem; font-weight: 700; width: 48px; text-align: right; }
-
-    @media (max-width: 1024px) {
-      .charts-row, .charts-row-3, .bottom-row { grid-template-columns: 1fr; }
-    }
+    .charts-row   { display: grid; grid-template-columns: 2fr 1fr; gap: var(--s-4); margin-bottom: var(--s-4); }
+    .charts-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); margin-bottom: var(--s-4); }
+    .bottom-row   { display: grid; grid-template-columns: 3fr 2fr; gap: var(--s-4); margin-bottom: var(--s-4); }
+    @media (max-width: 900px) { .charts-row, .charts-row-2, .bottom-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-orb bg-orb-1"></div>
-  <div class="bg-orb bg-orb-2"></div>
-
   <nav class="navbar">
     <a href="index.html" class="navbar-brand">
-      <div class="logo-icon">🎯</div>
-      <span class="logo-text">SkillTrack360</span>
+      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+      <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="dashboard.html">📊 Dashboard</a></li>
-      <li><a href="skill-gap.html">🔍 Skill Gaps</a></li>
-      <li><a href="initiatives.html">🚀 Initiatives</a></li>
-      <li><a href="trainee.html">👤 Trainees</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="skill-gap.html">Skill Gaps</a></li>
+      <li><a href="initiatives.html">Initiatives</a></li>
+      <li><a href="trainee.html">Trainees</a></li>
     </ul>
-    <div style="display:flex;gap:8px;align-items:center;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
       <select class="filter-select" id="yearFilter">
-        <option selected>FY 2025-26</option>
+        <option>FY 2025-26</option>
         <option>FY 2024-25</option>
         <option>FY 2023-24</option>
-        <option>FY 2022-23</option>
       </select>
-      <button class="btn btn-primary btn-sm" onclick="showToast('Report exported!','success')">⬇ Export</button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Report exported!','success')"><i class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export</button>
     </div>
   </nav>
 
   <div class="page-wrapper">
     <div class="dash-layout">
-      <!-- Header -->
-      <div class="page-meta animate-up">
-        <div>
-          <h1 class="page-title">Employment Outcomes <span class="grad-text">Dashboard</span></h1>
-          <p style="color:var(--text-secondary);font-size:0.875rem;">National overview · All States · FY 2024-25</p>
+
+      <!-- Page Header -->
+      <div class="page-header animate-up">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 class="page-title">Employment Outcomes Dashboard</h1>
+            <p style="font-size:0.875rem;color:var(--text-2);">National overview · All States · FY 2024-25</p>
+          </div>
+          <div class="live-indicator">
+            <span class="live-dot"></span>
+            Live Data
+          </div>
         </div>
-        <div class="live-indicator">
-          <div class="live-dot"></div>
-          Live Data
-        </div>
-        <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="page-meta-row">
           <div class="stat-pill"><span class="counter" data-target="28">0</span> States Active</div>
-          <div class="stat-pill">Last updated: <span>Today, 10:32 AM</span></div>
+          <div class="stat-pill">Updated: <span>Today, 10:32 AM</span></div>
         </div>
       </div>
 
-      <!-- KPI Cards -->
-      <div class="kpi-grid" style="margin-bottom:var(--space-lg);">
-        <div class="kpi-card glass-card blue animate-up animate-delay-1">
-          <div class="kpi-icon">🎓</div>
+      <!-- KPI Row 1 -->
+      <div class="kpi-grid" style="margin-bottom:var(--s-4);">
+        <div class="kpi-card blue animate-up animate-delay-1">
+          <div class="kpi-icon"><i class="fa-solid fa-user-graduate"></i></div>
           <div class="kpi-value counter" data-target="184750">0</div>
           <div class="kpi-label">Total Trainees Enrolled</div>
           <div class="kpi-trend up">▲ +18.4% from last year</div>
         </div>
-        <div class="kpi-card glass-card green animate-up animate-delay-2">
-          <div class="kpi-icon">💼</div>
+        <div class="kpi-card green animate-up animate-delay-2">
+          <div class="kpi-icon"><i class="fa-solid fa-briefcase"></i></div>
           <div class="kpi-value counter" data-target="127340">0</div>
           <div class="kpi-label">Trainees Placed</div>
           <div class="kpi-trend up">▲ +22.1% from last year</div>
         </div>
-        <div class="kpi-card glass-card orange animate-up animate-delay-3">
-          <div class="kpi-icon">📈</div>
+        <div class="kpi-card orange animate-up animate-delay-3">
+          <div class="kpi-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
           <div class="kpi-value"><span class="counter" data-target="68.9">0</span>%</div>
           <div class="kpi-label">Overall Placement Rate</div>
           <div class="kpi-trend up">▲ +12.3% from last year</div>
         </div>
-        <div class="kpi-card glass-card red animate-up animate-delay-4">
-          <div class="kpi-icon">⚠️</div>
+        <div class="kpi-card red animate-up animate-delay-4">
+          <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
           <div class="kpi-value counter" data-target="58">0</div>
           <div class="kpi-label">Skill Gaps Identified</div>
-          <div class="kpi-trend down">▼ 7 Critical · Needs Action</div>
+          <div class="kpi-trend down">▼ 7 Critical — Action Needed</div>
         </div>
       </div>
 
       <!-- KPI Row 2 -->
-      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr); margin-bottom:var(--space-xl);">
-        <div class="kpi-card glass-card blue">
-          <div class="kpi-icon">🚀</div>
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:var(--s-6);">
+        <div class="kpi-card blue reveal">
+          <div class="kpi-icon"><i class="fa-solid fa-rocket"></i></div>
           <div class="kpi-value counter" data-target="342">0</div>
           <div class="kpi-label">Active Initiatives</div>
         </div>
-        <div class="kpi-card glass-card green">
-          <div class="kpi-icon">🤝</div>
+        <div class="kpi-card green reveal animate-delay-1">
+          <div class="kpi-icon"><i class="fa-solid fa-handshake"></i></div>
           <div class="kpi-value counter" data-target="2840">0</div>
           <div class="kpi-label">Employer Partners</div>
         </div>
-        <div class="kpi-card glass-card orange">
-          <div class="kpi-icon">💰</div>
+        <div class="kpi-card orange reveal animate-delay-2">
+          <div class="kpi-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
           <div class="kpi-value">+<span class="counter" data-target="42">0</span>%</div>
           <div class="kpi-label">Avg. Salary Uplift</div>
         </div>
-        <div class="kpi-card glass-card red">
-          <div class="kpi-icon">📅</div>
+        <div class="kpi-card purple reveal animate-delay-3">
+          <div class="kpi-icon"><i class="fa-solid fa-calendar-days"></i></div>
           <div class="kpi-value"><span class="counter" data-target="47">0</span>d</div>
           <div class="kpi-label">Avg. Time to Hire</div>
         </div>
       </div>
 
-      <!-- Employment Trend + Donut -->
+      <!-- Trend + Donut -->
       <div class="charts-row">
         <div class="dash-card reveal">
           <div class="dash-card-title">
             Employment Outcome Trend (Monthly)
             <div class="tab-bar">
-              <button class="tab-btn active" id="tabEnrolled" onclick="switchTrend('all',this)">All</button>
+              <button class="tab-btn active" onclick="switchTrend('all',this)">All</button>
               <button class="tab-btn" onclick="switchTrend('placed',this)">Placed</button>
             </div>
           </div>
-          <div class="chart-container" style="height:280px;">
+          <div class="chart-container" style="height:260px;">
             <canvas id="trendChart"></canvas>
           </div>
         </div>
         <div class="dash-card reveal">
-          <div class="dash-card-title">Placement Status</div>
-          <div class="chart-container" style="height:200px; display:flex; align-items:center; justify-content:center;">
+          <div class="dash-card-title">Placement Status Breakdown</div>
+          <div class="chart-container" style="height:180px;display:flex;align-items:center;justify-content:center;">
             <canvas id="statusChart"></canvas>
           </div>
-          <div style="margin-top:var(--space-lg); display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
-              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;background:#00ff9f;border-radius:50%;display:inline-block;"></span>Placed</span>
-              <span style="color:var(--accent-3);font-weight:700;">68.9%</span>
+          <div style="margin-top:var(--s-4);display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;">
+              <span style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;"></span>Placed</span>
+              <span class="font-bold text-green">68.9%</span>
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
-              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;background:#ffd60a;border-radius:50%;display:inline-block;"></span>In Training</span>
-              <span style="color:var(--accent-5);font-weight:700;">18.4%</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;">
+              <span style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:var(--orange);border-radius:50%;display:inline-block;"></span>In Training</span>
+              <span class="font-bold text-orange">18.4%</span>
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
-              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;background:#7b5ea7;border-radius:50%;display:inline-block;"></span>Job Seeking</span>
-              <span style="color:#b39ddb;font-weight:700;">12.7%</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;">
+              <span style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;background:var(--purple);border-radius:50%;display:inline-block;"></span>Job Seeking</span>
+              <span class="font-bold text-purple">12.7%</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sector Chart + Salary Uplift -->
-      <div class="charts-row">
+      <!-- Sector + Salary -->
+      <div class="charts-row-2">
         <div class="dash-card reveal">
           <div class="dash-card-title">Sector-wise Placement Performance</div>
-          <div class="chart-container" style="height:280px;">
+          <div class="chart-container" style="height:260px;">
             <canvas id="sectorChart"></canvas>
           </div>
         </div>
         <div class="dash-card reveal">
           <div class="dash-card-title">Salary Uplift by Sector</div>
-          <div class="chart-container" style="height:280px;">
+          <div class="chart-container" style="height:260px;">
             <canvas id="salaryChart"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- State Leaderboard + Top Employers -->
+      <!-- State + Employers -->
       <div class="bottom-row">
         <div class="dash-card reveal">
           <div class="dash-card-title">State-wise Placement Rate <span class="badge badge-blue">Top 10</span></div>
@@ -293,12 +176,73 @@
       </div>
 
       <!-- Activity Feed -->
-      <div class="dash-card reveal" style="margin-bottom:var(--space-lg);">
+      <div class="dash-card reveal" style="margin-bottom:var(--s-6);">
         <div class="dash-card-title">Recent Activity Feed</div>
         <div id="activityFeed"></div>
       </div>
 
     </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="navbar-brand" style="margin-bottom: 8px;">
+              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
+            </div>
+            <p class="footer-desc">
+              National intelligence platform for tracking employment outcomes, monitoring skill demand-supply gaps, and measuring skilling initiative ROI in real time.
+            </p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <div class="footer-col-title">Platform</div>
+              <ul class="footer-links">
+                <li><a href="index.html">Home Overview</a></li>
+                <li><a href="dashboard.html">Employment Dashboard</a></li>
+                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="trainee.html">Trainee Profiles</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Resources</div>
+              <ul class="footer-links">
+                <li><a href="#">Methodology & Metrics</a></li>
+                <li><a href="#">Open Data Standards</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="#">Quarterly Reports</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Legal & Trust</div>
+              <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Data Governance</a></li>
+                <li><a href="#">Security Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 SkillTrack360. All rights reserved.
+          </div>
+          <div class="developed-by">
+            <span>Developed by</span>
+            <a href="#" class="developed-by-logo-wrap" title="Rashomind">
+              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script src="data/mock-data.js"></script>

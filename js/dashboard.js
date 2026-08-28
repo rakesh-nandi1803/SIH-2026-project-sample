@@ -22,11 +22,51 @@ function renderTrendChart(mode) {
 
   const d = SkillTrackData.employmentTrend;
   const datasets = mode === 'placed'
-    ? [{ label: 'Placed', data: d.placed, borderColor: '#00ff9f', backgroundColor: 'rgba(0,255,159,0.08)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 7 }]
+    ? [{
+        label: 'Placed',
+        data: d.placed,
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        fill: true,
+        tension: 0.35,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        borderWidth: 2
+      }]
     : [
-        { label: 'Enrolled', data: d.enrolled, borderColor: '#00d4ff', backgroundColor: 'rgba(0,212,255,0.06)', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 6 },
-        { label: 'Trained',  data: d.trained,  borderColor: '#7b5ea7', backgroundColor: 'rgba(123,94,167,0.06)', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 6 },
-        { label: 'Placed',   data: d.placed,   borderColor: '#00ff9f', backgroundColor: 'rgba(0,255,159,0.06)', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 6 }
+        {
+          label: 'Enrolled',
+          data: d.enrolled,
+          borderColor: '#f36a10',
+          backgroundColor: 'rgba(243, 106, 16, 0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2
+        },
+        {
+          label: 'Trained',
+          data: d.trained,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.06)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2
+        },
+        {
+          label: 'Placed',
+          data: d.placed,
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          borderWidth: 2
+        }
       ];
 
   trendChart = new Chart(ctx, {
@@ -38,10 +78,9 @@ function renderTrendChart(mode) {
       interaction: { mode: 'index', intersect: false },
       plugins: { legend: { display: true, position: 'top' } },
       scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8ba3c1' } },
+        x: { grid: { display: false } },
         y: {
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: '#8ba3c1', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v }
+          ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v }
         }
       }
     }
@@ -49,8 +88,8 @@ function renderTrendChart(mode) {
 }
 
 window.switchTrend = function(mode, btn) {
-  document.querySelectorAll('#tabEnrolled').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   renderTrendChart(mode);
 };
 
@@ -58,16 +97,18 @@ window.switchTrend = function(mode, btn) {
 function renderStatusChart() {
   const ctx = document.getElementById('statusChart');
   if (!ctx) return;
+  if (statusChart) statusChart.destroy();
+
   statusChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: ['Placed', 'In Training', 'Job Seeking'],
       datasets: [{
         data: [68.9, 18.4, 12.7],
-        backgroundColor: ['rgba(0,255,159,0.8)', 'rgba(255,214,10,0.8)', 'rgba(123,94,167,0.8)'],
-        borderColor: 'transparent',
-        borderWidth: 0,
-        hoverOffset: 8
+        backgroundColor: ['#10b981', '#f36a10', '#475569'],
+        borderColor: 'var(--surface)',
+        borderWidth: 2,
+        hoverOffset: 6
       }]
     },
     options: {
@@ -86,14 +127,30 @@ function renderStatusChart() {
 function renderSectorChart() {
   const ctx = document.getElementById('sectorChart');
   if (!ctx) return;
+  if (sectorChart) sectorChart.destroy();
+
   const d = SkillTrackData.sectorPlacement;
   sectorChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: d.labels,
       datasets: [
-        { label: 'Enrolled', data: d.enrolled, backgroundColor: 'rgba(0,212,255,0.2)', borderColor: 'rgba(0,212,255,0.6)', borderWidth: 1, borderRadius: 4 },
-        { label: 'Placed',   data: d.placed,   backgroundColor: 'rgba(0,255,159,0.4)', borderColor: 'rgba(0,255,159,0.8)', borderWidth: 1, borderRadius: 4 }
+        {
+          label: 'Enrolled',
+          data: d.enrolled,
+          backgroundColor: 'rgba(243, 106, 16, 0.25)',
+          borderColor: '#f36a10',
+          borderWidth: 1,
+          borderRadius: 4
+        },
+        {
+          label: 'Placed',
+          data: d.placed,
+          backgroundColor: 'rgba(16, 185, 129, 0.8)',
+          borderColor: '#10b981',
+          borderWidth: 1,
+          borderRadius: 4
+        }
       ]
     },
     options: {
@@ -102,8 +159,8 @@ function renderSectorChart() {
       interaction: { mode: 'index', intersect: false },
       plugins: { legend: { position: 'top' } },
       scales: {
-        x: { grid: { display: false }, ticks: { color: '#8ba3c1', maxRotation: 30 } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8ba3c1', callback: v => (v/1000).toFixed(0)+'K' } }
+        x: { grid: { display: false }, ticks: { maxRotation: 25 } },
+        y: { ticks: { callback: v => (v/1000).toFixed(0)+'K' } }
       }
     }
   });
@@ -113,8 +170,10 @@ function renderSectorChart() {
 function renderSalaryChart() {
   const ctx = document.getElementById('salaryChart');
   if (!ctx) return;
+  if (salaryChart) salaryChart.destroy();
+
   const d = SkillTrackData.salaryUplift;
-  const colors = ['#00d4ff','#7b5ea7','#00ff9f','#ffd60a','#ff6b35'];
+  const colors = ['#f36a10', '#f59e0b', '#10b981', '#475569', '#ea580c'];
   const sectors = ['IT', 'Manufacturing', 'Healthcare', 'Retail', 'Construction'];
 
   salaryChart = new Chart(ctx, {
@@ -126,9 +185,10 @@ function renderSalaryChart() {
         data: d[s],
         borderColor: colors[i],
         backgroundColor: 'transparent',
-        tension: 0.4,
-        pointRadius: 4,
-        pointHoverRadius: 7
+        tension: 0.35,
+        borderWidth: 2,
+        pointRadius: 3,
+        pointHoverRadius: 6
       }))
     },
     options: {
@@ -137,11 +197,8 @@ function renderSalaryChart() {
       interaction: { mode: 'index', intersect: false },
       plugins: { legend: { position: 'top' } },
       scales: {
-        x: { grid: { display: false }, ticks: { color: '#8ba3c1' } },
-        y: {
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: '#8ba3c1', callback: v => '₹' + (v/1000).toFixed(0)+'K' }
-        }
+        x: { grid: { display: false } },
+        y: { ticks: { callback: v => '₹' + (v/1000).toFixed(0)+'K' } }
       }
     }
   });
@@ -152,20 +209,24 @@ function renderStateList() {
   const el = document.getElementById('stateList');
   if (!el) return;
   const states = SkillTrackData.stateData;
+  el.className = 'state-list';
   el.innerHTML = states.map((s, i) => {
-    const color = s.placementRate >= 75 ? 'var(--accent-3)' : s.placementRate >= 65 ? 'var(--accent-5)' : '#ff4757';
+    const colorClass = s.placementRate >= 75 ? 'text-green' : s.placementRate >= 65 ? 'text-orange' : 'text-red';
+    const barColor = s.placementRate >= 75 ? 'green' : s.placementRate >= 65 ? 'orange' : 'red';
     const barW = Math.round(s.placementRate);
     return `
       <div class="state-row">
-        <span style="color:var(--text-muted);font-size:0.75rem;width:20px;">${i+1}</span>
-        <div style="flex:1;">
-          <div class="state-name">${s.state}</div>
-          <div class="progress-bar-wrap" style="margin-top:4px;">
-            <div class="progress-bar-fill ${s.placementRate >= 75 ? 'green' : s.placementRate >= 65 ? 'orange' : 'red'}" data-width="${barW}" style="width:0%;"></div>
+        <span class="state-rank">${i+1}</span>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="state-name">${s.state}</span>
+            <span class="badge badge-gray" style="font-size:0.68rem;">${s.initiatives} programs</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill ${barColor}" data-width="${barW}" style="width:0%;"></div>
           </div>
         </div>
-        <div class="state-rate" style="color:${color};">${s.placementRate}%</div>
-        <div class="badge badge-blue" style="margin-left:8px;font-size:0.68rem;">${s.initiatives} prog.</div>
+        <div class="state-rate ${colorClass}">${s.placementRate}%</div>
       </div>`;
   }).join('');
   setTimeout(animateProgressBars, 100);
@@ -175,22 +236,57 @@ function renderStateList() {
 function renderEmployerList() {
   const el = document.getElementById('employerList');
   if (!el) return;
-  el.innerHTML = SkillTrackData.topEmployers.map((e, i) => `
-    <div class="employer-item">
-      <div class="employer-rank">${i+1}</div>
-      <div style="width:34px;height:34px;border-radius:8px;background:var(--glass-bg);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
-        ${['💻','💾','🏗️','🏥','🛒','📦','🚗','🖥️'][i]}
+  
+  const sectorIcons = {
+    'IT & Tech': '<i class="fa-solid fa-laptop-code"></i>',
+    'Construction': '<i class="fa-solid fa-helmet-safety"></i>',
+    'Healthcare': '<i class="fa-solid fa-hospital"></i>',
+    'Retail': '<i class="fa-solid fa-cart-shopping"></i>',
+    'Logistics': '<i class="fa-solid fa-truck-fast"></i>',
+    'Manufacturing': '<i class="fa-solid fa-gears"></i>',
+    'Green Energy': '<i class="fa-solid fa-solar-panel"></i>',
+    'Automotive': '<i class="fa-solid fa-car"></i>',
+    'Finance': '<i class="fa-solid fa-building-columns"></i>',
+    'Agriculture': '<i class="fa-solid fa-wheat-awn"></i>'
+  };
+
+  const sectorBadges = {
+    'IT & Tech': 'badge-blue',
+    'Construction': 'badge-orange',
+    'Healthcare': 'badge-green',
+    'Retail': 'badge-purple',
+    'Logistics': 'badge-blue',
+    'Manufacturing': 'badge-orange',
+    'Green Energy': 'badge-green',
+    'Finance': 'badge-purple',
+    'Agriculture': 'badge-green'
+  };
+
+  el.className = 'employer-list';
+  el.innerHTML = SkillTrackData.topEmployers.map((e, i) => {
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+    const badgeClass = sectorBadges[e.sector] || 'badge-gray';
+    const icon = sectorIcons[e.sector] || '<i class="fa-solid fa-building"></i>';
+    const salaryFormatted = e.avgSalary ? formatSalary(e.avgSalary) : '';
+
+    return `
+      <div class="employer-row">
+        <div class="emp-rank ${rankClass}">${i+1}</div>
+        <div class="emp-icon">${icon}</div>
+        <div class="emp-info">
+          <div class="emp-name">${e.name}</div>
+          <div class="emp-meta">
+            <span class="badge ${badgeClass}">${e.sector}</span>
+            ${salaryFormatted ? `<span style="font-size:0.72rem; color:var(--text-3);">Avg ${salaryFormatted}/mo</span>` : ''}
+          </div>
+        </div>
+        <div class="emp-stat">
+          <div class="emp-count">${formatNum(e.hires)}</div>
+          <div class="emp-label">hires</div>
+        </div>
       </div>
-      <div style="flex:1;">
-        <div class="employer-name">${e.name}</div>
-        <div class="employer-sector">${e.sector}</div>
-      </div>
-      <div>
-        <div class="employer-count">${formatNum(e.hires)}</div>
-        <div style="font-size:0.7rem;color:var(--text-muted);text-align:right;">hires</div>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // ── Activity Feed ─────────────────────────────────────────
@@ -198,14 +294,14 @@ function renderActivityFeed() {
   const el = document.getElementById('activityFeed');
   if (!el) return;
   const activities = [
-    { color: 'var(--accent-3)', text: 'Priya Sharma (TRN-001842) placed at Infosys BPM as Junior Data Analyst — ₹22,000/month', time: '2 hours ago' },
-    { color: 'var(--accent-1)', text: 'New batch of 240 trainees enrolled in PMKVY 4.0 — IT Sector batch at Lucknow TC', time: '4 hours ago' },
-    { color: '#ffd60a',         text: 'Skill gap alert: EV Technician demand surged 34% in Maharashtra — curriculum update recommended', time: '6 hours ago' },
-    { color: '#b39ddb',         text: 'ASEEM initiative crossed 86.4% placement rate — highest performing program this quarter', time: '8 hours ago' },
-    { color: 'var(--accent-3)', text: 'L&T Construction onboarded 180 DDU-GKY trainees from Bihar batch', time: '12 hours ago' },
-    { color: '#ff6b35',         text: 'Cloud Computing skill gap widened to 57 points — critical shortage in IT sector', time: '1 day ago' },
-    { color: 'var(--accent-1)', text: 'Karnataka achieved 80.5% placement rate — top performing state this month', time: '1 day ago' },
-    { color: '#ffd60a',         text: 'SANKALP Healthcare batch in Rajasthan completed mid-assessment with 88% avg score', time: '2 days ago' },
+    { color: 'var(--green)',   text: 'Priya Sharma (TRN-001842) placed at Infosys BPM as Junior Data Analyst — ₹22,000/month', time: '2 hours ago' },
+    { color: 'var(--accent)',  text: 'New batch of 240 trainees enrolled in PMKVY 4.0 — IT Sector batch at Lucknow TC', time: '4 hours ago' },
+    { color: 'var(--orange)',  text: 'Skill gap alert: EV Technician demand surged 34% in Maharashtra — curriculum update recommended', time: '6 hours ago' },
+    { color: 'var(--purple)',  text: 'ASEEM initiative crossed 86.4% placement rate — highest performing program this quarter', time: '8 hours ago' },
+    { color: 'var(--green)',   text: 'L&T Construction onboarded 180 DDU-GKY trainees from Bihar batch', time: '12 hours ago' },
+    { color: 'var(--red)',     text: 'Cloud Computing skill gap widened to 57 points — critical shortage in IT sector', time: '1 day ago' },
+    { color: 'var(--accent)',  text: 'Karnataka achieved 80.5% placement rate — top performing state this month', time: '1 day ago' },
+    { color: 'var(--orange)',  text: 'SANKALP Healthcare batch in Rajasthan completed mid-assessment with 88% avg score', time: '2 days ago' },
   ];
   el.innerHTML = activities.map(a => `
     <div class="activity-item">

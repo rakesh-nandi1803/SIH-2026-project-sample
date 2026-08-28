@@ -13,7 +13,7 @@ export const kpiData = [
     trend: '+12.4%',
     trendDir: 'up',
     sub: '↑ 13,700 vs last quarter',
-    gradient: 'linear-gradient(135deg, #7c3aed, #06b6d4)',
+    gradient: 'linear-gradient(135deg, #f36a10, #f59e0b)',
     icon: 'Users',
   },
   {
@@ -24,7 +24,7 @@ export const kpiData = [
     trend: '+5.2%',
     trendDir: 'up',
     sub: '↑ from 73.1% last year',
-    gradient: 'linear-gradient(135deg, #10b981, #06b6d4)',
+    gradient: 'linear-gradient(135deg, #10b981, #059669)',
     icon: 'Briefcase',
   },
   {
@@ -35,7 +35,7 @@ export const kpiData = [
     trend: '+3.1%',
     trendDir: 'up',
     sub: 'Post-training vs pre-training',
-    gradient: 'linear-gradient(135deg, #f59e0b, #ec4899)',
+    gradient: 'linear-gradient(135deg, #ea580c, #f36a10)',
     icon: 'TrendingUp',
   },
   {
@@ -46,7 +46,7 @@ export const kpiData = [
     trend: '-2.3%',
     trendDir: 'down',
     sub: '42 new, 85 concluded this month',
-    gradient: 'linear-gradient(135deg, #ec4899, #7c3aed)',
+    gradient: 'linear-gradient(135deg, #2d3748, #4a5568)',
     icon: 'BookOpen',
   },
 ]
@@ -69,11 +69,11 @@ export const enrollmentTrend = [
 
 // ── Outcome Distribution ─────────────────────────────────────
 export const outcomeDistribution = [
-  { name: 'Employed (Full-time)', value: 52, fill: '#7c3aed' },
-  { name: 'Self-employed', value: 14, fill: '#06b6d4' },
+  { name: 'Employed (Full-time)', value: 52, fill: '#f36a10' },
+  { name: 'Self-employed', value: 14, fill: '#f59e0b' },
   { name: 'Higher Education', value: 18, fill: '#10b981' },
-  { name: 'Seeking', value: 11, fill: '#f59e0b' },
-  { name: 'Other', value: 5, fill: '#ec4899' },
+  { name: 'Seeking', value: 11, fill: '#64748b' },
+  { name: 'Other', value: 5, fill: '#94a3b8' },
 ]
 
 // ── Employment: Placement by Sector ─────────────────────────

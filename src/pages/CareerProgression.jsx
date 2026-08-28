@@ -10,7 +10,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
       <div style={{ color: 'var(--text-muted)', marginBottom: 6, fontWeight: 600 }}>{label}</div>
@@ -46,12 +46,12 @@ export default function CareerProgression() {
           <AreaChart data={salaryGrowth} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="gradSenior" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.5} />
-                <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                <stop offset="5%" stopColor="#f36a10" stopOpacity={0.5} />
+                <stop offset="95%" stopColor="#f36a10" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gradMid" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gradEntry" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#10b981" stopOpacity={0.35} />
@@ -63,8 +63,8 @@ export default function CareerProgression() {
             <YAxis tickFormatter={v => `₹${v}L`} tick={{ fontSize: 11 }} />
             <Tooltip content={<CustomTooltip />} formatter={(v) => `₹${v}L`} />
             <Legend />
-            <Area type="monotone" dataKey="senior" name="Senior Level" stroke="#7c3aed" strokeWidth={2.5} fill="url(#gradSenior)" />
-            <Area type="monotone" dataKey="mid" name="Mid Level" stroke="#06b6d4" strokeWidth={2.5} fill="url(#gradMid)" />
+            <Area type="monotone" dataKey="senior" name="Senior Level" stroke="#f36a10" strokeWidth={2.5} fill="url(#gradSenior)" />
+            <Area type="monotone" dataKey="mid" name="Mid Level" stroke="#f59e0b" strokeWidth={2.5} fill="url(#gradMid)" />
             <Area type="monotone" dataKey="entry" name="Entry Level" stroke="#10b981" strokeWidth={2.5} fill="url(#gradEntry)" />
           </AreaChart>
         </ResponsiveContainer>
@@ -85,9 +85,9 @@ export default function CareerProgression() {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar dataKey="promoted" name="Promoted" stackId="a" fill="#10b981" radius={[0,0,0,0]} />
-              <Bar dataKey="lateral" name="Lateral Move" stackId="a" fill="#06b6d4" />
-              <Bar dataKey="sameRole" name="Same Role" stackId="a" fill="#7c3aed" />
-              <Bar dataKey="entrepreneur" name="Entrepreneur" stackId="a" fill="#f59e0b" radius={[4,4,0,0]} />
+              <Bar dataKey="lateral" name="Lateral Move" stackId="a" fill="#f59e0b" />
+              <Bar dataKey="sameRole" name="Same Role" stackId="a" fill="#475569" />
+              <Bar dataKey="entrepreneur" name="Entrepreneur" stackId="a" fill="#f36a10" radius={[4,4,0,0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -104,10 +104,10 @@ export default function CareerProgression() {
               <YAxis tickFormatter={v => `${v}%`} tick={{ fontSize: 11 }} domain={[0, 80]} />
               <Tooltip content={<CustomTooltip />} formatter={(v) => `${v}%`} />
               <Legend />
-              <Line type="monotone" dataKey="it" name="IT & Software" stroke="#7c3aed" strokeWidth={2.5} dot={{ r: 4 }} />
-              <Line type="monotone" dataKey="bfsi" name="BFSI" stroke="#06b6d4" strokeWidth={2.5} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="it" name="IT & Software" stroke="#f36a10" strokeWidth={2.5} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="bfsi" name="BFSI" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="healthcare" name="Healthcare" stroke="#10b981" strokeWidth={2.5} dot={{ r: 4 }} />
-              <Line type="monotone" dataKey="manufacturing" name="Manufacturing" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="manufacturing" name="Manufacturing" stroke="#64748b" strokeWidth={2.5} dot={{ r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -116,7 +116,7 @@ export default function CareerProgression() {
       {/* Career Insight Cards */}
       <div className="chart-grid chart-grid-3">
         {[
-          { label: 'Avg. Time to First Promotion', value: '2.4 yrs', desc: 'Among trained workforce', color: '#7c3aed' },
+          { label: 'Avg. Time to First Promotion', value: '2.4 yrs', desc: 'Among trained workforce', color: '#f36a10' },
           { label: 'Salary Growth (5yr avg)', value: '107%', desc: 'Post-training salary trajectory', color: '#10b981' },
           { label: 'Entrepreneurship Rate', value: '11.2%', desc: 'Started own venture within 3 years', color: '#f59e0b' },
         ].map(m => (

@@ -3,6 +3,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, ZAxis,
 } from 'recharts'
+import { Star } from 'lucide-react'
 import ChartCard from '../components/ChartCard'
 import { programCompletion, programROI, hoursVsPlacement } from '../data/mockData'
 
@@ -10,7 +11,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
       <div style={{ color: 'var(--text-muted)', marginBottom: 6, fontWeight: 600 }}>{label}</div>
@@ -29,10 +30,10 @@ const ScatterTooltip = ({ active, payload }) => {
   if (!d) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
-      <div style={{ color: '#a78bfa', fontWeight: 700, marginBottom: 4 }}>{d.program}</div>
+      <div style={{ color: '#f36a10', fontWeight: 700, marginBottom: 4 }}>{d.program}</div>
       <div style={{ color: 'var(--text-secondary)' }}>Training Hours: <strong style={{ color: 'white' }}>{d.hours}h</strong></div>
       <div style={{ color: 'var(--text-secondary)' }}>Placement Rate: <strong style={{ color: '#10b981' }}>{d.placementRate}%</strong></div>
     </div>
@@ -43,7 +44,12 @@ function StarRating({ rating }) {
   return (
     <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
       {[1,2,3,4,5].map(s => (
-        <span key={s} style={{ color: s <= Math.round(rating) ? '#f59e0b' : 'var(--text-muted)', fontSize: 12 }}>★</span>
+        <Star
+          key={s}
+          size={12}
+          fill={s <= Math.round(rating) ? '#f59e0b' : 'transparent'}
+          color={s <= Math.round(rating) ? '#f59e0b' : 'var(--text-muted)'}
+        />
       ))}
       <span style={{ fontSize: 11, color: 'var(--text-muted)', marginLeft: 4 }}>{rating}</span>
     </div>
@@ -69,8 +75,8 @@ export default function TrainingImpact() {
             <BarChart data={programCompletion} margin={{ top: 5, right: 10, left: 0, bottom: 60 }}>
               <defs>
                 <linearGradient id="gradEnrolled" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7c3aed" stopOpacity={0.9} />
-                  <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.4} />
+                  <stop offset="0%" stopColor="#f36a10" stopOpacity={0.9} />
+                  <stop offset="100%" stopColor="#f36a10" stopOpacity={0.4} />
                 </linearGradient>
                 <linearGradient id="gradCertified" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#10b981" stopOpacity={0.9} />
@@ -100,7 +106,7 @@ export default function TrainingImpact() {
               <YAxis dataKey="placementRate" name="Placement Rate" type="number" domain={[55, 95]} tick={{ fontSize: 11 }} tickFormatter={v => `${v}%`} />
               <ZAxis range={[60, 200]} />
               <Tooltip content={<ScatterTooltip />} />
-              <Scatter name="Programs" data={hoursVsPlacement} fill="#7c3aed" fillOpacity={0.8}>
+              <Scatter name="Programs" data={hoursVsPlacement} fill="#f36a10" fillOpacity={0.85}>
                 {hoursVsPlacement.map((d, i) => (
                   <circle key={i} />
                 ))}
@@ -136,7 +142,7 @@ export default function TrainingImpact() {
                   <td className="table-name">{row.program}</td>
                   <td style={{ color: 'var(--text-secondary)' }}>{row.cost}</td>
                   <td style={{ color: 'var(--text-secondary)' }}>{row.costPlacement}</td>
-                  <td style={{ color: 'var(--accent-cyan)', fontWeight: 600 }}>{row.avgSalary}</td>
+                  <td style={{ color: 'var(--text-accent)', fontWeight: 600 }}>{row.avgSalary}</td>
                   <td>
                     <span style={{
                       color: '#10b981',

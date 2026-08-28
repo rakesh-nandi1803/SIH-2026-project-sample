@@ -25,7 +25,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
       <div style={{ color: 'var(--text-muted)', marginBottom: 6, fontWeight: 600 }}>{label}</div>
@@ -64,12 +64,12 @@ export default function Overview() {
             <AreaChart data={enrollmentTrend} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="gradEnroll" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#f36a10" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#f36a10" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="gradComplete" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="gradPlace" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
@@ -81,8 +81,8 @@ export default function Overview() {
               <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1000).toFixed(0)}k`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
-              <Area type="monotone" dataKey="enrollments" name="Enrollments" stroke="#7c3aed" strokeWidth={2} fill="url(#gradEnroll)" />
-              <Area type="monotone" dataKey="completions" name="Completions" stroke="#06b6d4" strokeWidth={2} fill="url(#gradComplete)" />
+              <Area type="monotone" dataKey="enrollments" name="Enrollments" stroke="#f36a10" strokeWidth={2} fill="url(#gradEnroll)" />
+              <Area type="monotone" dataKey="completions" name="Completions" stroke="#f59e0b" strokeWidth={2} fill="url(#gradComplete)" />
               <Area type="monotone" dataKey="placements" name="Placements" stroke="#10b981" strokeWidth={2} fill="url(#gradPlace)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -114,8 +114,8 @@ export default function Overview() {
               <Tooltip
                 formatter={(val, name) => [`${val}%`, name]}
                 contentStyle={{
-                  background: 'rgba(13,21,38,0.95)',
-                  border: '1px solid rgba(124,58,237,0.3)',
+                  background: 'rgba(15,20,31,0.95)',
+                  border: '1px solid rgba(243,106,16,0.35)',
                   borderRadius: 8, fontSize: 12,
                 }}
               />
@@ -137,8 +137,8 @@ export default function Overview() {
       {/* Bottom: Highlights bar */}
       <div className="chart-grid chart-grid-3">
         {[
-          { label: 'NSQF Level 4+ Certified', value: '68,420', color: '#7c3aed', pct: 55 },
-          { label: 'Women Enrolled', value: '51,280', color: '#ec4899', pct: 41 },
+          { label: 'NSQF Level 4+ Certified', value: '68,420', color: '#f36a10', pct: 55 },
+          { label: 'Women Enrolled', value: '51,280', color: '#f59e0b', pct: 41 },
           { label: 'Rural Learners', value: '38,620', color: '#10b981', pct: 31 },
         ].map(item => (
           <ChartCard key={item.label} title={item.label} badge={`${item.pct}% of total`}>

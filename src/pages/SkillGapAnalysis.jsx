@@ -3,6 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { Flame, Zap, TrendingUp, Sparkles } from 'lucide-react'
 import ChartCard from '../components/ChartCard'
 import { skillRadar, skillGapBar, trendingSkills } from '../data/mockData'
 
@@ -10,7 +11,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
       <div style={{ color: 'var(--text-muted)', marginBottom: 6, fontWeight: 600 }}>{label}</div>
@@ -45,7 +46,7 @@ export default function SkillGapAnalysis() {
               <PolarGrid stroke="rgba(148,163,184,0.1)" />
               <PolarAngleAxis dataKey="skill" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} />
               <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 9, fill: 'var(--text-muted)' }} />
-              <Radar name="Industry Demand" dataKey="demand" stroke="#7c3aed" fill="#7c3aed" fillOpacity={0.25} strokeWidth={2} />
+              <Radar name="Industry Demand" dataKey="demand" stroke="#f36a10" fill="#f36a10" fillOpacity={0.25} strokeWidth={2} />
               <Radar name="Workforce Supply" dataKey="supply" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
               <Legend />
               <Tooltip content={<CustomTooltip />} />
@@ -65,7 +66,7 @@ export default function SkillGapAnalysis() {
               <YAxis type="category" dataKey="skill" tick={{ fontSize: 10, fill: 'var(--text-secondary)' }} width={110} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
-              <Bar dataKey="demand" name="Demand" fill="#7c3aed" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="demand" name="Demand" fill="#f36a10" radius={[0, 4, 4, 0]} />
               <Bar dataKey="supply" name="Supply" fill="#10b981" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -78,18 +79,21 @@ export default function SkillGapAnalysis() {
         subtitle="Categorized by demand urgency — sourced from 50K+ job postings"
         badge="Live Trends"
       >
-        <div style={{ marginBottom: 12, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ marginBottom: 12, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           {[
-            { level: 'hot', label: '🔥 Hot (Urgent)', color: '#f472b6' },
-            { level: 'high', label: '⚡ High Demand', color: '#fbbf24' },
-            { level: 'medium', label: '📈 Growing', color: '#34d399' },
-            { level: 'low', label: '💡 Emerging', color: '#a78bfa' },
-          ].map(l => (
-            <div key={l.level} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: l.color }}>
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: l.color }} />
-              {l.label}
-            </div>
-          ))}
+            { level: 'hot', label: 'Hot (Urgent)', icon: Flame, color: '#f36a10' },
+            { level: 'high', label: 'High Demand', icon: Zap, color: '#f59e0b' },
+            { level: 'medium', label: 'Growing', icon: TrendingUp, color: '#10b981' },
+            { level: 'low', label: 'Emerging', icon: Sparkles, color: '#64748b' },
+          ].map(l => {
+            const Icon = l.icon
+            return (
+              <div key={l.level} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: l.color, fontWeight: 500 }}>
+                <Icon size={14} />
+                <span>{l.label}</span>
+              </div>
+            )
+          })}
         </div>
         <div className="pill-grid">
           {trendingSkills.map(s => (
@@ -103,7 +107,7 @@ export default function SkillGapAnalysis() {
       {/* Gap summary metrics */}
       <div className="chart-grid chart-grid-3" style={{ marginTop: 20 }}>
         {[
-          { label: 'Avg. Skill Gap Score', value: '43.2', unit: 'pts', desc: 'Across all tracked domains', color: '#ec4899' },
+          { label: 'Avg. Skill Gap Score', value: '43.2', unit: 'pts', desc: 'Across all tracked domains', color: '#f36a10' },
           { label: 'Critical Shortage Roles', value: '284', unit: 'roles', desc: 'Requiring immediate upskilling', color: '#f59e0b' },
           { label: 'Gap Closed YoY', value: '18.4%', unit: '', desc: 'Improvement vs. last year', color: '#10b981' },
         ].map(m => (

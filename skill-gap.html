@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,157 +8,121 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    .page-layout { max-width: 1400px; margin: 0 auto; padding: var(--space-xl); }
-    .page-title  { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: var(--space-xs); }
-
-    /* Filter bar */
-    .filter-bar {
-      display: flex; align-items: center; gap: var(--space-md);
-      flex-wrap: wrap; margin-bottom: var(--space-xl);
-      padding: var(--space-md) var(--space-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-    }
-    .filter-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-
-    /* Gap Cards Grid */
-    .gap-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: var(--space-md);
-      margin-bottom: var(--space-xl);
-    }
-    .gap-card {
-      padding: var(--space-lg);
-      border-radius: var(--radius-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      transition: all var(--transition-base);
-      cursor: pointer;
-    }
-    .gap-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,71,87,0.3);
-      box-shadow: 0 8px 32px rgba(255,71,87,0.1);
-    }
-    .gap-card.critical { border-left: 3px solid #ff4757; }
-    .gap-card.high     { border-left: 3px solid #ffd60a; }
-    .gap-card.medium   { border-left: 3px solid #00d4ff; }
-    .gap-card.low      { border-left: 3px solid #00ff9f; }
-    .gap-card-top {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: var(--space-md);
-    }
-    .gap-skill-name { font-size: 0.9rem; font-weight: 700; flex: 1; margin-right: 8px; }
-    .gap-sector     { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
-    .gap-number {
-      font-family: var(--font-display);
-      font-size: 2rem; font-weight: 900;
-      line-height: 1;
-    }
-    .gap-number.critical { color: #ff4757; }
-    .gap-number.high     { color: #ffd60a; }
-    .gap-number.medium   { color: #00d4ff; }
-    .gap-number.low      { color: #00ff9f; }
-    .gap-bar-row {
-      display: flex; gap: var(--space-sm);
-      align-items: center; margin-top: 4px;
-    }
-    .gap-bar-label { font-size: 0.72rem; color: var(--text-muted); width: 52px; }
-    .gap-bar-wrap  { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
-    .gap-bar-fill  { height: 100%; border-radius: 3px; }
-
-    /* Main layout */
-    .gap-main {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-    .dash-card {
-      padding: var(--space-lg);
-      border-radius: var(--radius-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-    }
-    .dash-card-title {
-      font-size: 0.85rem; font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin-bottom: var(--space-lg);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-
     /* Severity summary */
     .severity-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-md);
-      margin-bottom: var(--space-xl);
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
     }
     .severity-card {
-      padding: var(--space-lg);
-      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-5) var(--s-6);
       text-align: center;
-      border: 1px solid var(--glass-border);
-      background: var(--glass-bg);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--t-base), border-color var(--t-base);
     }
-    .severity-count { font-family: var(--font-display); font-size: 2.4rem; font-weight: 900; line-height: 1; }
-    .severity-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .severity-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+    .severity-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+    .severity-card.red::after    { background: var(--red); }
+    .severity-card.orange::after { background: var(--orange); }
+    .severity-card.blue::after   { background: var(--accent); }
+    .severity-card.green::after  { background: var(--green); }
+    .severity-count { font-size: 2.25rem; font-weight: var(--fw-bold); line-height: 1; margin-bottom: 4px; }
+    .severity-label { font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: var(--fw-semibold); }
+    .severity-sub   { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
 
-    /* Search */
-    .search-input {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--text-primary);
-      padding: 0.5rem 0.9rem;
-      border-radius: var(--radius-md);
-      font-size: 0.875rem;
-      font-family: var(--font-body);
-      outline: none;
-      min-width: 200px;
-      transition: border-color var(--transition-base);
+    /* Gap cards */
+    .gap-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
     }
-    .search-input:focus { border-color: var(--accent-1); }
-    .search-input::placeholder { color: var(--text-muted); }
+    .gap-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-5);
+      transition: box-shadow var(--t-base), border-color var(--t-base);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .gap-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: var(--r-lg) 0 0 var(--r-lg);
+    }
+    .gap-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+    .gap-card.critical::before { background: var(--red); }
+    .gap-card.high::before     { background: var(--orange); }
+    .gap-card.medium::before   { background: var(--accent); }
+    .gap-card.low::before      { background: var(--green); }
 
-    @media (max-width: 768px) {
-      .gap-main, .severity-grid { grid-template-columns: 1fr; }
+    .gap-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--s-3); }
+    .gap-skill-name { font-size: 0.9rem; font-weight: var(--fw-semibold); flex: 1; margin-right: 8px; color: var(--text-1); }
+    .gap-sector     { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+    .gap-number     { font-size: 2rem; font-weight: var(--fw-bold); line-height: 1; }
+    .gap-number.critical { color: var(--red); }
+    .gap-number.high     { color: var(--orange); }
+    .gap-number.medium   { color: var(--accent); }
+    .gap-number.low      { color: var(--green); }
+    .gap-bar-row {
+      display: flex; gap: var(--s-2); align-items: center; margin-top: 4px;
     }
+    .gap-bar-label { font-size: 0.7rem; color: var(--text-3); width: 48px; }
+    .gap-bar-wrap  { flex: 1; height: 5px; background: var(--surface-3); border-radius: var(--r-full); overflow: hidden; }
+    .gap-bar-fill  { height: 100%; border-radius: var(--r-full); transition: width 0.8s ease; }
+    .gap-bar-fill.demand  { background: var(--accent); }
+    .gap-bar-fill.supply  { background: var(--green); }
+
+    /* Charts layout */
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); margin-bottom: var(--s-6); }
+    @media (max-width: 768px) { .severity-grid { grid-template-columns: repeat(2,1fr); } .charts-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-orb bg-orb-1"></div>
-  <div class="bg-orb bg-orb-2"></div>
-
   <nav class="navbar">
     <a href="index.html" class="navbar-brand">
-      <div class="logo-icon">🎯</div>
-      <span class="logo-text">SkillTrack360</span>
+      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+      <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="dashboard.html">📊 Dashboard</a></li>
-      <li><a href="skill-gap.html">🔍 Skill Gaps</a></li>
-      <li><a href="initiatives.html">🚀 Initiatives</a></li>
-      <li><a href="trainee.html">👤 Trainees</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="skill-gap.html">Skill Gaps</a></li>
+      <li><a href="initiatives.html">Initiatives</a></li>
+      <li><a href="trainee.html">Trainees</a></li>
     </ul>
-    <button class="btn btn-primary btn-sm" onclick="showToast('Gap report exported!','success')">⬇ Export Report</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Gap report exported!','success')"><i class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export</button>
+    </div>
   </nav>
 
   <div class="page-wrapper">
     <div class="page-layout">
       <!-- Header -->
-      <div class="animate-up" style="margin-bottom:var(--space-xl);">
-        <h1 class="page-title">Skill Gap <span class="grad-text">Analyzer</span></h1>
-        <p style="color:var(--text-secondary);font-size:0.875rem;">Industry demand vs. trained workforce supply · Real-time gap detection</p>
+      <div class="page-header animate-up">
+        <h1 class="page-title">Skill Gap Analyzer</h1>
+        <p style="font-size:0.875rem;color:var(--text-2);">Industry demand vs. trained workforce supply · Real-time gap detection</p>
       </div>
 
       <!-- Filter Bar -->
       <div class="filter-bar reveal">
-        <span class="filter-label">🔍 Filter:</span>
+        <span class="filter-label">Filter:</span>
         <select class="filter-select" id="sectorFilter" onchange="filterGaps()">
           <option value="all">All Sectors</option>
           <option value="IT & Tech">IT & Tech</option>
@@ -172,52 +136,52 @@
         </select>
         <select class="filter-select" id="severityFilter" onchange="filterGaps()">
           <option value="all">All Severities</option>
-          <option value="critical">🔴 Critical</option>
-          <option value="high">🟡 High</option>
-          <option value="medium">🔵 Medium</option>
-          <option value="low">🟢 Low</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
         </select>
         <input type="text" class="search-input" id="gapSearch" placeholder="Search skills..." oninput="filterGaps()" />
-        <div style="margin-left:auto; display:flex; gap:8px;">
-          <div class="stat-pill">Total: <span id="gapCount">15</span> gaps</div>
+        <div style="margin-left:auto;">
+          <div class="stat-pill">Showing: <span id="gapCount">15</span> gaps</div>
         </div>
       </div>
 
       <!-- Severity Summary -->
       <div class="severity-grid">
-        <div class="severity-card reveal">
-          <div class="severity-count" style="color:#ff4757;">7</div>
-          <div class="severity-label">🔴 Critical</div>
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Gap &gt; 40 pts</div>
+        <div class="severity-card red reveal">
+          <div class="severity-count text-red">7</div>
+          <div class="severity-label">Critical</div>
+          <div class="severity-sub">Gap &gt; 40 pts</div>
         </div>
-        <div class="severity-card reveal animate-delay-1">
-          <div class="severity-count" style="color:#ffd60a;">2</div>
-          <div class="severity-label">🟡 High</div>
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Gap 20–40 pts</div>
+        <div class="severity-card orange reveal animate-delay-1">
+          <div class="severity-count text-orange">2</div>
+          <div class="severity-label">High</div>
+          <div class="severity-sub">Gap 20–40 pts</div>
         </div>
-        <div class="severity-card reveal animate-delay-2">
-          <div class="severity-count" style="color:#00d4ff;">2</div>
-          <div class="severity-label">🔵 Medium</div>
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Gap 10–20 pts</div>
+        <div class="severity-card blue reveal animate-delay-2">
+          <div class="severity-count text-accent">2</div>
+          <div class="severity-label">Medium</div>
+          <div class="severity-sub">Gap 10–20 pts</div>
         </div>
-        <div class="severity-card reveal animate-delay-3">
-          <div class="severity-count" style="color:#00ff9f;">4</div>
-          <div class="severity-label">🟢 Low</div>
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Gap &lt; 10 pts</div>
+        <div class="severity-card green reveal animate-delay-3">
+          <div class="severity-count text-green">4</div>
+          <div class="severity-label">Low</div>
+          <div class="severity-sub">Gap &lt; 10 pts</div>
         </div>
       </div>
 
-      <!-- Charts Row -->
-      <div class="gap-main">
+      <!-- Charts -->
+      <div class="charts-row">
         <div class="dash-card reveal">
           <div class="dash-card-title">Demand vs. Supply by Skill</div>
-          <div style="position:relative;height:340px;">
+          <div style="position:relative;height:300px;">
             <canvas id="demandSupplyChart"></canvas>
           </div>
         </div>
         <div class="dash-card reveal">
-          <div class="dash-card-title">Gap Size Distribution</div>
-          <div style="position:relative;height:340px;">
+          <div class="dash-card-title">Gap Size by Sector (Radar)</div>
+          <div style="position:relative;height:300px;">
             <canvas id="gapRadarChart"></canvas>
           </div>
         </div>
@@ -226,8 +190,8 @@
       <!-- Gap Cards -->
       <div class="section-header reveal">
         <div>
-          <h2 class="section-title">All Skill Gaps</h2>
-          <p class="section-subtitle">Click any card to see detailed analysis</p>
+          <div class="section-title">All Skill Gaps</div>
+          <div class="section-subtitle">Click any card to see detailed analysis</div>
         </div>
         <div class="tab-bar">
           <button class="tab-btn active" onclick="sortGaps('gap',this)">By Gap Size</button>
@@ -236,8 +200,68 @@
         </div>
       </div>
       <div class="gap-cards" id="gapCards"></div>
-
     </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="navbar-brand" style="margin-bottom: 8px;">
+              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
+            </div>
+            <p class="footer-desc">
+              National intelligence platform for tracking employment outcomes, monitoring skill demand-supply gaps, and measuring skilling initiative ROI in real time.
+            </p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <div class="footer-col-title">Platform</div>
+              <ul class="footer-links">
+                <li><a href="index.html">Home Overview</a></li>
+                <li><a href="dashboard.html">Employment Dashboard</a></li>
+                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="trainee.html">Trainee Profiles</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Resources</div>
+              <ul class="footer-links">
+                <li><a href="#">Methodology & Metrics</a></li>
+                <li><a href="#">Open Data Standards</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="#">Quarterly Reports</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Legal & Trust</div>
+              <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Data Governance</a></li>
+                <li><a href="#">Security Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 SkillTrack360. All rights reserved.
+          </div>
+          <div class="developed-by">
+            <span>Developed by</span>
+            <a href="#" class="developed-by-logo-wrap" title="Rashomind">
+              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script src="data/mock-data.js"></script>

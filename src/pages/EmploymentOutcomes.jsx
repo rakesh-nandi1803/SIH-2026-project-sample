@@ -10,7 +10,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'rgba(13,21,38,0.95)', border: '1px solid rgba(124,58,237,0.3)',
+      background: 'rgba(15,20,31,0.95)', border: '1px solid rgba(243,106,16,0.35)',
       borderRadius: 10, padding: '12px 16px', fontSize: 12,
     }}>
       <div style={{ color: 'var(--text-muted)', marginBottom: 6, fontWeight: 600 }}>{label}</div>
@@ -49,8 +49,8 @@ export default function EmploymentOutcomes() {
               </Bar>
               <defs>
                 <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#7c3aed" />
-                  <stop offset="100%" stopColor="#06b6d4" />
+                  <stop offset="0%" stopColor="#f36a10" />
+                  <stop offset="100%" stopColor="#f59e0b" />
                 </linearGradient>
               </defs>
             </BarChart>
@@ -70,7 +70,7 @@ export default function EmploymentOutcomes() {
               <Tooltip content={<CustomTooltip />} formatter={(v) => [`${v} days`]} />
               <Legend />
               <ReferenceLine y={30} stroke="rgba(245,158,11,0.4)" strokeDasharray="6 3" label={{ value: 'Baseline', fill: '#f59e0b', fontSize: 10 }} />
-              <Line type="monotone" dataKey="days" name="Actual" stroke="#7c3aed" strokeWidth={2.5} dot={{ fill: '#7c3aed', r: 4 }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="days" name="Actual" stroke="#f36a10" strokeWidth={2.5} dot={{ fill: '#f36a10', r: 4 }} activeDot={{ r: 6 }} />
               <Line type="monotone" dataKey="target" name="Target" stroke="#10b981" strokeWidth={2} strokeDasharray="5 3" dot={false} />
             </LineChart>
           </ResponsiveContainer>
@@ -105,7 +105,7 @@ export default function EmploymentOutcomes() {
                   <td>{row.placed.toLocaleString('en-IN')}</td>
                   <td>
                     <span style={{
-                      color: row.rate >= 80 ? '#10b981' : row.rate >= 70 ? '#f59e0b' : '#ec4899',
+                      color: row.rate >= 80 ? '#10b981' : row.rate >= 70 ? '#f36a10' : '#f43f5e',
                       fontWeight: 700,
                     }}>
                       {row.rate}%
@@ -119,10 +119,10 @@ export default function EmploymentOutcomes() {
                         style={{
                           width: `${row.rate}%`,
                           background: row.rate >= 80
-                            ? 'linear-gradient(90deg,#10b981,#06b6d4)'
+                            ? 'linear-gradient(90deg,#10b981,#059669)'
                             : row.rate >= 70
-                            ? 'linear-gradient(90deg,#f59e0b,#ec4899)'
-                            : 'linear-gradient(90deg,#ec4899,#7c3aed)',
+                            ? 'linear-gradient(90deg,#f36a10,#f59e0b)'
+                            : 'linear-gradient(90deg,#f43f5e,#ea580c)',
                         }}
                       />
                     </div>
