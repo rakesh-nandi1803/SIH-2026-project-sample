@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 node_modules/
 dist/
 .env
 .env.local
+=======
+node_modules
+node_modules
+>>>>>>> 9062442 (Fix Vite deployment)
