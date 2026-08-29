@@ -211,7 +211,7 @@
       .hero-visual { width: 100%; }
     }
   </style>
-  <link rel="stylesheet" crossorigin href="/assets/index-C9eSDtmA.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-DkMOFKfo.css">
 </head>
 <body>
   <nav class="navbar">
@@ -226,8 +226,12 @@
       <li><a href="initiatives.html">Initiatives</a></li>
       <li><a href="trainee.html">Trainees</a></li>
     </ul>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div class="nav-actions">
       <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <div class="nav-auth-area">
+        <button class="btn btn-ghost btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:4px;"></i> Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')"><i class="fa-solid fa-user-plus" style="margin-right:4px;"></i> Sign Up</button>
+      </div>
       <a href="dashboard.html" class="btn btn-primary btn-sm">Dashboard →</a>
     </div>
   </nav>
@@ -250,7 +254,8 @@
         </p>
         <div class="hero-actions">
           <a href="dashboard.html" class="btn btn-primary"><i class="fa-solid fa-chart-column" style="margin-right:6px;"></i> View Dashboard</a>
-          <a href="skill-gap.html" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass-chart" style="margin-right:6px;"></i> Analyze Skill Gaps</a>
+          <button class="btn btn-ghost" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:6px;"></i> Stakeholder Login</button>
+          <a href="skill-gap.html" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass-chart" style="margin-right:6px;"></i> Analyze Gaps</a>
         </div>
         <div class="hero-stats">
           <div>
