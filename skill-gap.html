@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Gap Analyzer — SkillTrack360</title>
+  <meta name="description" content="Identify critical skill gaps between market demand and trained workforce supply across sectors and states." />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* Severity summary */
+    .severity-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    .severity-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-5) var(--s-6);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--t-base), border-color var(--t-base);
+    }
+    .severity-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+    .severity-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+    .severity-card.red::after    { background: var(--red); }
+    .severity-card.orange::after { background: var(--orange); }
+    .severity-card.blue::after   { background: var(--accent); }
+    .severity-card.green::after  { background: var(--green); }
+    .severity-count { font-size: 2.25rem; font-weight: var(--fw-bold); line-height: 1; margin-bottom: 4px; }
+    .severity-label { font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: var(--fw-semibold); }
+    .severity-sub   { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
+
+    /* Gap cards */
+    .gap-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    .gap-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-5);
+      transition: box-shadow var(--t-base), border-color var(--t-base);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .gap-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: var(--r-lg) 0 0 var(--r-lg);
+    }
+    .gap-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+    .gap-card.critical::before { background: var(--red); }
+    .gap-card.high::before     { background: var(--orange); }
+    .gap-card.medium::before   { background: var(--accent); }
+    .gap-card.low::before      { background: var(--green); }
+
+    .gap-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--s-3); }
+    .gap-skill-name { font-size: 0.9rem; font-weight: var(--fw-semibold); flex: 1; margin-right: 8px; color: var(--text-1); }
+    .gap-sector     { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+    .gap-number     { font-size: 2rem; font-weight: var(--fw-bold); line-height: 1; }
+    .gap-number.critical { color: var(--red); }
+    .gap-number.high     { color: var(--orange); }
+    .gap-number.medium   { color: var(--accent); }
+    .gap-number.low      { color: var(--green); }
+    .gap-bar-row {
+      display: flex; gap: var(--s-2); align-items: center; margin-top: 4px;
+    }
+    .gap-bar-label { font-size: 0.7rem; color: var(--text-3); width: 48px; }
+    .gap-bar-wrap  { flex: 1; height: 5px; background: var(--surface-3); border-radius: var(--r-full); overflow: hidden; }
+    .gap-bar-fill  { height: 100%; border-radius: var(--r-full); transition: width 0.8s ease; }
+    .gap-bar-fill.demand  { background: var(--accent); }
+    .gap-bar-fill.supply  { background: var(--green); }
+
+    /* Charts layout */
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); margin-bottom: var(--s-6); }
+    @media (max-width: 768px) { .severity-grid { grid-template-columns: repeat(2,1fr); } .charts-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+      <span>SkillTrack<span class="text-accent">360</span></span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Gap report exported!','success')"><i class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export</button>
+      <div class="nav-auth-area">
+        <button class="btn btn-ghost btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:4px;"></i> Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')"><i class="fa-solid fa-user-plus" style="margin-right:4px;"></i> Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-layout">
+      <!-- Header -->
+      <div class="page-header animate-up">
+        <h1 class="page-title">Skill Gap Analyzer</h1>
+        <p style="font-size:0.875rem;color:var(--text-2);">Industry demand vs. trained workforce supply · Real-time gap detection</p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar reveal">
+        <span class="filter-label">Filter:</span>
+        <select class="filter-select" id="sectorFilter" onchange="filterGaps()">
+          <option value="all">All Sectors</option>
+          <option value="IT & Tech">IT & Tech</option>
+          <option value="Manufacturing">Manufacturing</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Green Energy">Green Energy</option>
+          <option value="Automotive">Automotive</option>
+          <option value="Logistics">Logistics</option>
+          <option value="Retail">Retail</option>
+          <option value="Finance">Finance</option>
+        </select>
+        <select class="filter-select" id="severityFilter" onchange="filterGaps()">
+          <option value="all">All Severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <input type="text" class="search-input" id="gapSearch" placeholder="Search skills..." oninput="filterGaps()" />
+        <div style="margin-left:auto;">
+          <div class="stat-pill">Showing: <span id="gapCount">15</span> gaps</div>
+        </div>
+      </div>
+
+      <!-- Severity Summary -->
+      <div class="severity-grid">
+        <div class="severity-card red reveal" style="cursor:pointer;" onclick="setSeverityFilter('critical')" title="Filter Critical Gaps">
+          <div class="severity-count text-red">7</div>
+          <div class="severity-label">Critical</div>
+          <div class="severity-sub">Gap &gt; 40 pts</div>
+        </div>
+        <div class="severity-card orange reveal animate-delay-1" style="cursor:pointer;" onclick="setSeverityFilter('high')" title="Filter High Gaps">
+          <div class="severity-count text-orange">2</div>
+          <div class="severity-label">High</div>
+          <div class="severity-sub">Gap 20–40 pts</div>
+        </div>
+        <div class="severity-card blue reveal animate-delay-2" style="cursor:pointer;" onclick="setSeverityFilter('medium')" title="Filter Medium Gaps">
+          <div class="severity-count text-accent">2</div>
+          <div class="severity-label">Medium</div>
+          <div class="severity-sub">Gap 10–20 pts</div>
+        </div>
+        <div class="severity-card green reveal animate-delay-3" style="cursor:pointer;" onclick="setSeverityFilter('low')" title="Filter Low Gaps">
+          <div class="severity-count text-green">4</div>
+          <div class="severity-label">Low</div>
+          <div class="severity-sub">Gap &lt; 10 pts</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-row">
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Demand vs. Supply by Skill</div>
+          <div style="position:relative;height:300px;">
+            <canvas id="demandSupplyChart"></canvas>
+          </div>
+        </div>
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Gap Size by Sector (Radar)</div>
+          <div style="position:relative;height:300px;">
+            <canvas id="gapRadarChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gap Cards -->
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">All Skill Gaps</div>
+          <div class="section-subtitle">Click any card to see detailed analysis</div>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="sortGaps('gap',this)">By Gap Size</button>
+          <button class="tab-btn" onclick="sortGaps('demand',this)">By Demand</button>
+          <button class="tab-btn" onclick="sortGaps('severity',this)">By Severity</button>
+        </div>
+      </div>
+      <div class="gap-cards" id="gapCards"></div>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="navbar-brand" style="margin-bottom: 8px;">
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
+            </div>
+            <p class="footer-desc">
+              National intelligence platform for tracking employment outcomes, monitoring skill demand-supply gaps, and measuring skilling initiative ROI in real time.
+            </p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <div class="footer-col-title">Platform</div>
+              <ul class="footer-links">
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Resources</div>
+              <ul class="footer-links">
+                <li><a href="#">Methodology & Metrics</a></li>
+                <li><a href="#">Open Data Standards</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="#">Quarterly Reports</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Legal & Trust</div>
+              <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Data Governance</a></li>
+                <li><a href="#">Security Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 SkillTrack360. All rights reserved.
+          </div>
+          <div class="developed-by">
+            <span>Developed by</span>
+            <a href="#" class="developed-by-logo-wrap" title="Rashomind">
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/skill-gap.js"></script>
+</body>
+</html>

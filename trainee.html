@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainee Profile — SkillTrack360</title>
+  <meta name="description" content="Track individual trainee journeys from enrollment to placement with skill acquisition, certifications, and job matching." />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* Selector Bar */
+    .selector-bar {
+      display: flex; gap: var(--s-3); align-items: center;
+      flex-wrap: wrap; margin-bottom: var(--s-6);
+      padding: var(--s-4);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+    }
+    .selector-label { font-size: 0.8rem; font-weight: var(--fw-semibold); color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Profile Layout */
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: var(--s-4);
+    }
+    .profile-sidebar { display: flex; flex-direction: column; gap: var(--s-4); }
+
+    /* Profile card */
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-6);
+      transition: box-shadow var(--t-base);
+    }
+    .profile-card:hover { box-shadow: var(--shadow-sm); }
+
+    /* Avatar */
+    .profile-avatar {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: var(--fw-bold); color: white;
+      margin: 0 auto var(--s-4);
+    }
+    .profile-name { font-size: 1.1rem; font-weight: var(--fw-bold); text-align: center; margin-bottom: 4px; color: var(--text-1); }
+    .profile-id   { text-align: center; font-size: 0.75rem; color: var(--accent); font-family: var(--font-mono); margin-bottom: var(--s-4); }
+
+    .profile-info-row {
+      display: flex; justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .profile-info-row:last-child { border-bottom: none; }
+    .info-key { color: var(--text-3); font-weight: var(--fw-medium); }
+    .info-val { color: var(--text-1); font-weight: var(--fw-medium); text-align: right; max-width: 160px; }
+
+    /* Match Score Ring */
+    .match-score-ring { position: relative; width: 100px; height: 100px; margin: 0 auto var(--s-3); }
+    .match-score-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .match-score-num   { font-size: 1.5rem; font-weight: var(--fw-bold); color: var(--green); line-height: 1; }
+    .match-score-label { font-size: 0.65rem; color: var(--text-3); }
+
+    /* Status Banner */
+    .status-banner {
+      padding: var(--s-4) var(--s-5);
+      border-radius: var(--r-lg);
+      display: flex; align-items: center; gap: var(--s-3);
+      margin-bottom: var(--s-4);
+    }
+    .status-banner.placed   { background: var(--green-light); border: 1px solid var(--green-mid); }
+    .status-banner.training { background: var(--orange-light); border: 1px solid var(--orange-mid); }
+    .status-icon  { font-size: 1.4rem; }
+    .status-text  { flex: 1; }
+    .status-title { font-weight: var(--fw-semibold); font-size: 0.9rem; color: var(--text-1); }
+    .status-desc  { font-size: 0.8rem; color: var(--text-2); margin-top: 2px; }
+
+    /* AI Card */
+    .ai-card { background: var(--accent-light); border: 1px solid var(--accent-mid); }
+    .ai-rec-item {
+      display: flex; gap: var(--s-3);
+      padding: var(--s-3) 0;
+      border-bottom: 1px solid var(--accent-mid);
+    }
+    .ai-rec-item:last-child { border-bottom: none; }
+    .ai-rec-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--r-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1rem;
+    }
+    .ai-rec-title { font-size: 0.85rem; font-weight: var(--fw-semibold); color: var(--text-1); }
+    .ai-rec-desc  { font-size: 0.75rem; color: var(--text-2); margin-top: 2px; }
+    .ai-rec-tag   { font-size: 0.7rem; color: var(--accent); margin-top: 4px; font-weight: var(--fw-medium); }
+
+    /* Profile main */
+    .profile-main { display: flex; flex-direction: column; gap: var(--s-4); }
+    .charts-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+
+    @media (max-width: 900px) {
+      .profile-layout { grid-template-columns: 1fr; }
+      .charts-row-2   { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+      <span>SkillTrack<span class="text-accent">360</span></span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Profile exported!','success')"><i class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export Profile</button>
+      <div class="nav-auth-area">
+        <button class="btn btn-ghost btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:4px;"></i> Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')"><i class="fa-solid fa-user-plus" style="margin-right:4px;"></i> Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-layout">
+      <!-- Header -->
+      <div class="page-header animate-up">
+        <h1 class="page-title">Trainee Profile</h1>
+        <p style="font-size:0.875rem;color:var(--text-2);">End-to-end journey tracking — Enrollment → Training → Certification → Placement</p>
+      </div>
+
+      <!-- Selector Bar -->
+      <div class="selector-bar reveal">
+        <span class="selector-label">Select Trainee:</span>
+        <select class="filter-select" id="traineeSelect" onchange="loadTrainee(this.value)">
+          <option value="0">Priya Sharma — TRN-2024-001842 (Placed)</option>
+          <option value="1">Rajan Kumar — TRN-2024-003291 (Placed)</option>
+          <option value="2">Anita Devi — TRN-2024-007812 (In Training)</option>
+        </select>
+        <div style="margin-left:auto;">
+          <div class="stat-pill">Total Trainees: <span>184,750</span></div>
+        </div>
+      </div>
+
+      <!-- Profile Layout -->
+      <div class="profile-layout">
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+          <!-- Identity Card -->
+          <div class="profile-card reveal">
+            <div id="profileAvatar" class="profile-avatar">PS</div>
+            <div id="profileName" class="profile-name">Priya Sharma</div>
+            <div id="profileId"   class="profile-id">TRN-2024-001842</div>
+            <div id="profileInfo"></div>
+          </div>
+
+          <!-- Match Score -->
+          <div class="profile-card reveal">
+            <div style="text-align:center;">
+              <div style="font-size:0.72rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--s-4);">Job Match Score</div>
+              <div class="match-score-ring">
+                <canvas id="matchChart" width="100" height="100"></canvas>
+                <div class="match-score-text">
+                  <div id="matchNum" class="match-score-num">92</div>
+                  <div class="match-score-label">/ 100</div>
+                </div>
+              </div>
+              <div id="matchLabel" style="font-size:0.8rem;color:var(--green);font-weight:var(--fw-semibold);">Excellent Match</div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="profile-card reveal">
+            <div class="dash-card-title"><i class="fa-solid fa-certificate text-accent" style="margin-right:6px;"></i> Certifications</div>
+            <div id="certList"></div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="profile-main">
+          <!-- Status Banner -->
+          <div id="statusBanner" class="reveal"></div>
+
+          <!-- Skills -->
+          <div class="dash-card reveal">
+            <div class="dash-card-title"><i class="fa-solid fa-screwdriver-wrench text-accent" style="margin-right:6px;"></i> Skills Acquired</div>
+            <div id="skillsList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+          </div>
+
+          <!-- Journey Timeline -->
+          <div class="dash-card reveal">
+            <div class="dash-card-title"><i class="fa-solid fa-route text-accent" style="margin-right:6px;"></i> Journey Timeline</div>
+            <div class="timeline" id="timeline"></div>
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-row-2">
+            <div class="dash-card reveal">
+              <div class="dash-card-title"><i class="fa-solid fa-chart-line text-accent" style="margin-right:6px;"></i> Skill Progress</div>
+              <div style="position:relative;height:210px;">
+                <canvas id="skillProgressChart"></canvas>
+              </div>
+            </div>
+            <div class="dash-card reveal">
+              <div class="dash-card-title"><i class="fa-solid fa-scale-balanced text-accent" style="margin-right:6px;"></i> Salary Comparison</div>
+              <div style="position:relative;height:210px;">
+                <canvas id="salaryCompChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Recommendations -->
+          <div class="dash-card ai-card reveal">
+            <div class="dash-card-title">
+              <i class="fa-solid fa-wand-magic-sparkles text-accent" style="margin-right:6px;"></i> AI Skill Recommendations
+              <span class="badge badge-blue">Powered by SkillAI</span>
+            </div>
+            <div id="aiRecs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="navbar-brand" style="margin-bottom: 8px;">
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
+            </div>
+            <p class="footer-desc">
+              National intelligence platform for tracking employment outcomes, monitoring skill demand-supply gaps, and measuring skilling initiative ROI in real time.
+            </p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <div class="footer-col-title">Platform</div>
+              <ul class="footer-links">
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Resources</div>
+              <ul class="footer-links">
+                <li><a href="#">Methodology & Metrics</a></li>
+                <li><a href="#">Open Data Standards</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="#">Quarterly Reports</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Legal & Trust</div>
+              <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Data Governance</a></li>
+                <li><a href="#">Security Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 SkillTrack360. All rights reserved.
+          </div>
+          <div class="developed-by">
+            <span>Developed by</span>
+            <a href="#" class="developed-by-logo-wrap" title="Rashomind">
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/trainee.js"></script>
+</body>
+</html>

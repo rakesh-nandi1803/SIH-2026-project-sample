@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Initiative Tracker — SkillTrack360</title>
+  <meta name="description"
+    content="Track the impact and ROI of all national skilling initiatives — PMKVY, DDU-GKY, NAPS, and more." />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* Initiative Cards */
+    .initiative-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+
+    .init-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--s-5);
+      transition: box-shadow var(--t-base), border-color var(--t-base);
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .init-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+
+    .init-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-2);
+    }
+
+    .init-card.s1::before {
+      background: var(--accent);
+    }
+
+    .init-card.s2::before {
+      background: var(--green);
+    }
+
+    .init-card.s3::before {
+      background: var(--orange);
+    }
+
+    .init-card.s4::before {
+      background: var(--purple);
+    }
+
+    .init-card.s5::before {
+      background: var(--red);
+    }
+
+    .init-card.s6::before {
+      background: var(--green);
+    }
+
+    .init-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--s-4);
+    }
+
+    .init-name {
+      font-size: 0.95rem;
+      font-weight: var(--fw-semibold);
+      margin-bottom: 2px;
+      color: var(--text-1);
+    }
+
+    .init-ministry {
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+
+    .init-id {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
+
+    .init-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-3);
+      margin: var(--s-4) 0;
+    }
+
+    .init-stat {
+      text-align: center;
+    }
+
+    .init-stat-val {
+      font-size: 1.1rem;
+      font-weight: var(--fw-bold);
+      color: var(--text-1);
+    }
+
+    .init-stat-label {
+      font-size: 0.68rem;
+      color: var(--text-3);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .init-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--s-4);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* Charts */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+
+    @media (max-width: 900px) {
+      .charts-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+      <span>SkillTrack<span class="text-accent">360</span></span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Initiative report exported!','success')"><i
+          class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export</button>
+      <div class="nav-auth-area">
+        <button class="btn btn-ghost btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:4px;"></i> Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')"><i class="fa-solid fa-user-plus" style="margin-right:4px;"></i> Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-layout">
+      <!-- Header -->
+      <div class="page-header animate-up">
+        <h1 class="page-title">Initiative Impact Tracker</h1>
+        <p style="font-size:0.875rem;color:var(--text-2);">Measuring ROI of national skilling programs — PMKVY · DDU-GKY
+          · NAPS · SANKALP · ASEEM</p>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid" style="margin-bottom:var(--s-6);">
+        <div class="kpi-card blue animate-up animate-delay-1">
+          <div class="kpi-icon"><i class="fa-solid fa-rocket"></i></div>
+          <div class="kpi-value counter" data-target="6">0</div>
+          <div class="kpi-label">Active Initiatives</div>
+        </div>
+        <div class="kpi-card green animate-up animate-delay-2">
+          <div class="kpi-icon"><i class="fa-solid fa-chart-column"></i></div>
+          <div class="kpi-value"><span class="counter" data-target="76.3">0</span>%</div>
+          <div class="kpi-label">Avg. Placement Rate</div>
+        </div>
+        <div class="kpi-card orange animate-up animate-delay-3">
+          <div class="kpi-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          <div class="kpi-value">₹<span class="counter" data-target="3780">0</span>Cr</div>
+          <div class="kpi-label">Total Budget Allocated</div>
+        </div>
+        <div class="kpi-card purple animate-up animate-delay-4" style="cursor:pointer;" onclick="filterByStatus('all'); showToast('ASEEM: Highest performing national program with 86.4% placement rate', 'success')">
+          <div class="kpi-icon"><i class="fa-solid fa-trophy"></i></div>
+          <div class="kpi-value"><span class="counter" data-target="86.4">0</span>%</div>
+          <div class="kpi-label">Best Rate (ASEEM)</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-row">
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Placement Rate Comparison</div>
+          <div style="position:relative;height:280px;">
+            <canvas id="placementCompChart"></canvas>
+          </div>
+        </div>
+        <div class="dash-card reveal">
+          <div class="dash-card-title">Enrolled vs. Placed (Funnel)</div>
+          <div style="position:relative;height:280px;">
+            <canvas id="funnelChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Initiative Cards -->
+      <div class="section-header reveal">
+        <div>
+          <div class="section-title">All Initiatives</div>
+          <div class="section-subtitle">Click any card to explore detailed metrics</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select class="filter-select" onchange="filterByStatus(this.value)">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="initiative-cards" id="initiativeCards"></div>
+
+      <!-- Comparison Table -->
+      <div class="dash-card reveal">
+        <div class="dash-card-title">Side-by-Side Comparison</div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="compTable"></table>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="navbar-brand" style="margin-bottom: 8px;">
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
+            </div>
+            <p class="footer-desc">
+              National intelligence platform for tracking employment outcomes, monitoring skill demand-supply gaps, and
+              measuring skilling initiative ROI in real time.
+            </p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div class="footer-col">
+              <div class="footer-col-title">Platform</div>
+              <ul class="footer-links">
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Resources</div>
+              <ul class="footer-links">
+                <li><a href="#">Methodology & Metrics</a></li>
+                <li><a href="#">Open Data Standards</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="#">Quarterly Reports</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="footer-col-title">Legal & Trust</div>
+              <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Data Governance</a></li>
+                <li><a href="#">Security Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 SkillTrack360. All rights reserved.
+          </div>
+          <div class="developed-by">
+            <span>Developed by</span>
+            <a href="#" class="developed-by-logo-wrap" title="Rashomind">
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/initiatives.js"></script>
+</body>
+
+</html>
