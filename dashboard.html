@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — SkillTrack360</title>
   <meta name="description" content="Real-time employment outcomes dashboard tracking trainees, placements, and skilling initiative performance across India." />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     .charts-row   { display: grid; grid-template-columns: 2fr 1fr; gap: var(--s-4); margin-bottom: var(--s-4); }
@@ -18,22 +18,22 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="index.html" class="navbar-brand">
-      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
       <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="skill-gap.html">Skill Gaps</a></li>
-      <li><a href="initiatives.html">Initiatives</a></li>
-      <li><a href="trainee.html">Trainees</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
     </ul>
     <div class="nav-actions">
       <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
-      <select class="filter-select" id="yearFilter">
+      <select class="filter-select" id="yearFilter" onchange="handleYearFilterChange(this.value)">
         <option>FY 2025-26</option>
-        <option>FY 2024-25</option>
+        <option selected>FY 2024-25</option>
         <option>FY 2023-24</option>
       </select>
       <button class="btn btn-ghost btn-sm" onclick="showToast('Report exported!','success')"><i class="fa-solid fa-file-arrow-down" style="margin-right:4px;"></i> Export</button>
@@ -194,7 +194,7 @@
         <div class="footer-top">
           <div class="footer-brand">
             <div class="navbar-brand" style="margin-bottom: 8px;">
-              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
               <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
             </div>
             <p class="footer-desc">
@@ -206,11 +206,11 @@
             <div class="footer-col">
               <div class="footer-col-title">Platform</div>
               <ul class="footer-links">
-                <li><a href="index.html">Home Overview</a></li>
-                <li><a href="dashboard.html">Employment Dashboard</a></li>
-                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
-                <li><a href="initiatives.html">Initiatives Tracker</a></li>
-                <li><a href="trainee.html">Trainee Profiles</a></li>
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
               </ul>
             </div>
 
@@ -243,7 +243,7 @@
           <div class="developed-by">
             <span>Developed by</span>
             <a href="#" class="developed-by-logo-wrap" title="Rashomind">
-              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
             </a>
           </div>
         </div>
@@ -251,8 +251,8 @@
     </footer>
   </div>
 
-  <script src="data/mock-data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/dashboard.js"></script>
 </body>
 </html>

@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkillTrack360 — Employment & Skill Gap Tracking Platform</title>
   <meta name="description" content="SkillTrack360 is India's unified platform for tracking employment outcomes, identifying skill gaps, and measuring the impact of skilling initiatives." />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
   <style>
     /* ── Hero ─────────────────────────────────────────── */
     .hero {
@@ -215,16 +215,16 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="index.html" class="navbar-brand">
-      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
       <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="skill-gap.html">Skill Gaps</a></li>
-      <li><a href="initiatives.html">Initiatives</a></li>
-      <li><a href="trainee.html">Trainees</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
     </ul>
     <div class="nav-actions">
       <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
@@ -232,7 +232,7 @@
         <button class="btn btn-ghost btn-sm" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:4px;"></i> Login</button>
         <button class="btn btn-primary btn-sm" onclick="openAuthModal('signup')"><i class="fa-solid fa-user-plus" style="margin-right:4px;"></i> Sign Up</button>
       </div>
-      <a href="dashboard.html" class="btn btn-primary btn-sm">Dashboard →</a>
+      <a href="/dashboard.html" class="btn btn-primary btn-sm">Dashboard →</a>
     </div>
   </nav>
 
@@ -253,9 +253,9 @@
           SkillTrack360 is a unified platform that bridges the gap between skilling initiatives and real employment outcomes — giving governments, training institutes, and employers a single source of truth.
         </p>
         <div class="hero-actions">
-          <a href="dashboard.html" class="btn btn-primary"><i class="fa-solid fa-chart-column" style="margin-right:6px;"></i> View Dashboard</a>
+          <a href="/dashboard.html" class="btn btn-primary"><i class="fa-solid fa-chart-column" style="margin-right:6px;"></i> View Dashboard</a>
           <button class="btn btn-ghost" onclick="openAuthModal('login')"><i class="fa-solid fa-right-to-bracket" style="margin-right:6px;"></i> Stakeholder Login</button>
-          <a href="skill-gap.html" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass-chart" style="margin-right:6px;"></i> Analyze Gaps</a>
+          <a href="/skill-gap.html" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass-chart" style="margin-right:6px;"></i> Analyze Gaps</a>
         </div>
         <div class="hero-stats">
           <div>
@@ -279,24 +279,24 @@
 
       <!-- Hero visual cards -->
       <div class="hero-visual">
-        <div class="hero-mini-card reveal animate-delay-1">
+        <a href="/dashboard.html" class="hero-mini-card reveal animate-delay-1" style="text-decoration:none;color:inherit;cursor:pointer;">
           <div class="mini-label">Placement Rate · FY 2024-25</div>
           <div class="mini-val text-accent">68.9%</div>
           <div class="mini-sub" style="color:var(--green);">▲ +12.3% from last year</div>
           <div class="progress-bar-wrap" style="margin-top:10px;">
             <div class="progress-bar-fill" data-width="69"></div>
           </div>
-        </div>
-        <div class="hero-mini-card reveal animate-delay-2">
+        </a>
+        <a href="/skill-gap.html" class="hero-mini-card reveal animate-delay-2" style="text-decoration:none;color:inherit;cursor:pointer;">
           <div class="mini-label">Critical Skill Gaps</div>
           <div class="mini-val text-red">7</div>
           <div class="mini-sub">Sectors need urgent upskilling</div>
-        </div>
-        <div class="hero-mini-card reveal animate-delay-3">
+        </a>
+        <a href="/dashboard.html" class="hero-mini-card reveal animate-delay-3" style="text-decoration:none;color:inherit;cursor:pointer;">
           <div class="mini-label">Avg. Salary Uplift</div>
           <div class="mini-val text-green">+42%</div>
           <div class="mini-sub">Post-training vs pre-training</div>
-        </div>
+        </a>
       </div>
     </div>
 
@@ -373,28 +373,28 @@
         </div>
       </div>
       <div class="solution-grid">
-        <a href="dashboard.html" class="solution-card s1 reveal animate-delay-1">
+        <a href="/dashboard.html" class="solution-card s1 reveal animate-delay-1">
           <div class="solution-num">01</div>
           <div class="solution-icon"><i class="fa-solid fa-chart-pie"></i></div>
           <div class="solution-title">Employment Dashboard</div>
           <p class="solution-desc">Real-time KPIs tracking enrollment, completion, placement rates and salary uplift across states, sectors and initiatives.</p>
           <span class="solution-link">Explore Dashboard →</span>
         </a>
-        <a href="skill-gap.html" class="solution-card s2 reveal animate-delay-2">
+        <a href="/skill-gap.html" class="solution-card s2 reveal animate-delay-2">
           <div class="solution-num">02</div>
           <div class="solution-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
           <div class="solution-title">Skill Gap Analyzer</div>
           <p class="solution-desc">Heatmaps and charts comparing industry demand vs. trained workforce supply — identifying critical skill shortages early.</p>
           <span class="solution-link">View Gaps →</span>
         </a>
-        <a href="initiatives.html" class="solution-card s3 reveal animate-delay-3">
+        <a href="/initiatives.html" class="solution-card s3 reveal animate-delay-3">
           <div class="solution-num">03</div>
           <div class="solution-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
           <div class="solution-title">Initiative Impact Tracker</div>
           <p class="solution-desc">Measure ROI of every skilling program — PMKVY, DDU-GKY, NAPS and more — with placement rates, salary data and trend analysis.</p>
           <span class="solution-link">Track Initiatives →</span>
         </a>
-        <a href="trainee.html" class="solution-card s4 reveal animate-delay-4">
+        <a href="/trainee.html" class="solution-card s4 reveal animate-delay-4">
           <div class="solution-num">04</div>
           <div class="solution-icon"><i class="fa-solid fa-user-graduate"></i></div>
           <div class="solution-title">Trainee Journey</div>
@@ -409,7 +409,7 @@
         <div class="footer-top">
           <div class="footer-brand">
             <div class="navbar-brand" style="margin-bottom: 8px;">
-              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
               <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
             </div>
             <p class="footer-desc">
@@ -421,11 +421,11 @@
             <div class="footer-col">
               <div class="footer-col-title">Platform</div>
               <ul class="footer-links">
-                <li><a href="index.html">Home Overview</a></li>
-                <li><a href="dashboard.html">Employment Dashboard</a></li>
-                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
-                <li><a href="initiatives.html">Initiatives Tracker</a></li>
-                <li><a href="trainee.html">Trainee Profiles</a></li>
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
               </ul>
             </div>
 
@@ -458,7 +458,7 @@
           <div class="developed-by">
             <span>Developed by</span>
             <a href="#" class="developed-by-logo-wrap" title="Rashomind">
-              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
             </a>
           </div>
         </div>
@@ -466,7 +466,7 @@
     </footer>
   </div>
 
-  <script src="data/mock-data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>

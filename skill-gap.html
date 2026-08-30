@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skill Gap Analyzer — SkillTrack360</title>
   <meta name="description" content="Identify critical skill gaps between market demand and trained workforce supply across sectors and states." />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     /* Severity summary */
@@ -97,16 +97,16 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="index.html" class="navbar-brand">
-      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
       <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="skill-gap.html">Skill Gaps</a></li>
-      <li><a href="initiatives.html">Initiatives</a></li>
-      <li><a href="trainee.html">Trainees</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
     </ul>
     <div class="nav-actions">
       <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
@@ -155,22 +155,22 @@
 
       <!-- Severity Summary -->
       <div class="severity-grid">
-        <div class="severity-card red reveal">
+        <div class="severity-card red reveal" style="cursor:pointer;" onclick="setSeverityFilter('critical')" title="Filter Critical Gaps">
           <div class="severity-count text-red">7</div>
           <div class="severity-label">Critical</div>
           <div class="severity-sub">Gap &gt; 40 pts</div>
         </div>
-        <div class="severity-card orange reveal animate-delay-1">
+        <div class="severity-card orange reveal animate-delay-1" style="cursor:pointer;" onclick="setSeverityFilter('high')" title="Filter High Gaps">
           <div class="severity-count text-orange">2</div>
           <div class="severity-label">High</div>
           <div class="severity-sub">Gap 20–40 pts</div>
         </div>
-        <div class="severity-card blue reveal animate-delay-2">
+        <div class="severity-card blue reveal animate-delay-2" style="cursor:pointer;" onclick="setSeverityFilter('medium')" title="Filter Medium Gaps">
           <div class="severity-count text-accent">2</div>
           <div class="severity-label">Medium</div>
           <div class="severity-sub">Gap 10–20 pts</div>
         </div>
-        <div class="severity-card green reveal animate-delay-3">
+        <div class="severity-card green reveal animate-delay-3" style="cursor:pointer;" onclick="setSeverityFilter('low')" title="Filter Low Gaps">
           <div class="severity-count text-green">4</div>
           <div class="severity-label">Low</div>
           <div class="severity-sub">Gap &lt; 10 pts</div>
@@ -213,7 +213,7 @@
         <div class="footer-top">
           <div class="footer-brand">
             <div class="navbar-brand" style="margin-bottom: 8px;">
-              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
               <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
             </div>
             <p class="footer-desc">
@@ -225,11 +225,11 @@
             <div class="footer-col">
               <div class="footer-col-title">Platform</div>
               <ul class="footer-links">
-                <li><a href="index.html">Home Overview</a></li>
-                <li><a href="dashboard.html">Employment Dashboard</a></li>
-                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
-                <li><a href="initiatives.html">Initiatives Tracker</a></li>
-                <li><a href="trainee.html">Trainee Profiles</a></li>
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
               </ul>
             </div>
 
@@ -262,7 +262,7 @@
           <div class="developed-by">
             <span>Developed by</span>
             <a href="#" class="developed-by-logo-wrap" title="Rashomind">
-              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
             </a>
           </div>
         </div>
@@ -270,8 +270,8 @@
     </footer>
   </div>
 
-  <script src="data/mock-data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/skill-gap.js"></script>
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/skill-gap.js"></script>
 </body>
 </html>

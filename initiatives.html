@@ -7,9 +7,9 @@
   <title>Initiative Tracker — SkillTrack360</title>
   <meta name="description"
     content="Track the impact and ROI of all national skilling initiatives — PMKVY, DDU-GKY, NAPS, and more." />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/favicon.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     /* Initiative Cards */
@@ -147,16 +147,16 @@
 
 <body>
   <nav class="navbar">
-    <a href="index.html" class="navbar-brand">
-      <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
+    <a href="/" class="navbar-brand">
+      <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" />
       <span>SkillTrack<span class="text-accent">360</span></span>
     </a>
     <ul class="navbar-nav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="skill-gap.html">Skill Gaps</a></li>
-      <li><a href="initiatives.html">Initiatives</a></li>
-      <li><a href="trainee.html">Trainees</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+      <li><a href="/skill-gap.html">Skill Gaps</a></li>
+      <li><a href="/initiatives.html">Initiatives</a></li>
+      <li><a href="/trainee.html">Trainees</a></li>
     </ul>
     <div class="nav-actions">
       <button id="themeToggle" class="theme-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
@@ -195,7 +195,7 @@
           <div class="kpi-value">₹<span class="counter" data-target="3780">0</span>Cr</div>
           <div class="kpi-label">Total Budget Allocated</div>
         </div>
-        <div class="kpi-card purple animate-up animate-delay-4">
+        <div class="kpi-card purple animate-up animate-delay-4" style="cursor:pointer;" onclick="filterByStatus('all'); showToast('ASEEM: Highest performing national program with 86.4% placement rate', 'success')">
           <div class="kpi-icon"><i class="fa-solid fa-trophy"></i></div>
           <div class="kpi-value"><span class="counter" data-target="86.4">0</span>%</div>
           <div class="kpi-label">Best Rate (ASEEM)</div>
@@ -248,7 +248,7 @@
         <div class="footer-top">
           <div class="footer-brand">
             <div class="navbar-brand" style="margin-bottom: 8px;">
-              <img src="images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
+              <img src="/images/logo-icon.png" alt="SkillTrack360 Logo" class="brand-img-logo" style="height:32px;" />
               <span class="logo-text">SkillTrack<span class="text-accent">360</span></span>
             </div>
             <p class="footer-desc">
@@ -261,11 +261,11 @@
             <div class="footer-col">
               <div class="footer-col-title">Platform</div>
               <ul class="footer-links">
-                <li><a href="index.html">Home Overview</a></li>
-                <li><a href="dashboard.html">Employment Dashboard</a></li>
-                <li><a href="skill-gap.html">Skill Gap Analyzer</a></li>
-                <li><a href="initiatives.html">Initiatives Tracker</a></li>
-                <li><a href="trainee.html">Trainee Profiles</a></li>
+                <li><a href="/">Home Overview</a></li>
+                <li><a href="/dashboard.html">Employment Dashboard</a></li>
+                <li><a href="/skill-gap.html">Skill Gap Analyzer</a></li>
+                <li><a href="/initiatives.html">Initiatives Tracker</a></li>
+                <li><a href="/trainee.html">Trainee Profiles</a></li>
               </ul>
             </div>
 
@@ -298,7 +298,7 @@
           <div class="developed-by">
             <span>Developed by</span>
             <a href="#" class="developed-by-logo-wrap" title="Rashomind">
-              <img src="images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
+              <img src="/images/rashomind-logo.png" alt="Rashomind Logo" class="developed-by-logo" />
             </a>
           </div>
         </div>
@@ -306,9 +306,9 @@
     </footer>
   </div>
 
-  <script src="data/mock-data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/initiatives.js"></script>
+  <script src="/data/mock-data.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/initiatives.js"></script>
 </body>
 
 </html>
