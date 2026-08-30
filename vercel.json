@@ -2,12 +2,9 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/dashboard", "destination": "/dashboard.html" },
-    { "source": "/skill-gap", "destination": "/skill-gap.html" },
-    { "source": "/initiatives", "destination": "/initiatives.html" },
-    { "source": "/trainee", "destination": "/trainee.html" },
-    { "source": "/employment", "destination": "/dashboard.html" },
-    { "source": "/training", "destination": "/initiatives.html" },
-    { "source": "/career", "destination": "/trainee.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
-}
+}
